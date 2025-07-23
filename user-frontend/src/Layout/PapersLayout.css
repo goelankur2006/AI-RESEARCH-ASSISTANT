@@ -1,0 +1,8 @@
+.papers-layout {
+  display: flex;
+}
+
+.papers-content {
+  flex: 1;
+  padding: 20px;
+}
