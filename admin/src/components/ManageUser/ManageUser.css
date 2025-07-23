@@ -1,0 +1,47 @@
+.form-section {
+  padding: 40px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.form-section h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+  color:rgb(4, 65, 106);
+}
+
+.form-section form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-section label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.form-section input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 20px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+}
+
+.register-btn {
+  background-color:rgb(4, 65, 106);
+  color:White;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.message {
+  margin-top: 15px;
+  color: red;
+  text-align: center;
+}
