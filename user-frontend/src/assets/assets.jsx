@@ -1,9 +1,7 @@
-import React from 'react'
+import logo from './logo.jpg';
+import cross_icon from './cross_icon.png';
 
-const assets = () => {
-  return (
-    <div>assets</div>
-  )
-}
-
-export default assets
+export const assets = {
+  logo,
+  cross_icon,
+};
