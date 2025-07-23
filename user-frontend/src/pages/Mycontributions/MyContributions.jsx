@@ -1,9 +1,20 @@
-import React from 'react'
+import React from 'react';
+import Navbar from '../../components/Navbar/Navbar';
+import Sidebar from '../../components/Sidebar/Sidebar';
 
-const MyContributions = () => {
+const MyContribution = () => {
   return (
-    <div>MyContributions</div>
-  )
-}
+    <div className="flex flex-col min-h-screen">
 
-export default MyContributions
+      <div className="flex flex-1">
+        <main className="flex-1 p-6">
+          <h2 className="text-xl font-semibold mb-4">My Contributions</h2>
+          <p className="text-gray-600">This page will show all the papers and comments you've submitted.</p>
+          {/* Add contribution list or upload form here */}
+        </main>
+      </div>
+    </div>
+  );
+};
+
+export default MyContribution;
