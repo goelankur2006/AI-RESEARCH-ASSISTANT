@@ -1,0 +1,110 @@
+.all-research {
+  display: flex;
+  min-height: 100vh; /* Full height of the viewport */
+  padding: 20px;
+  background-color: #f9f9f9;
+  gap: 20px;
+}
+
+/* Sidebar Styling */
+.sidebar {
+  width: 220px;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Full height inside flex container */
+}
+
+/* Category Item */
+.category-item {
+  padding: 10px;
+  margin: 6px 0;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.category-item.active,
+.category-item:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Papers Grid */
+.papers-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  flex: 1;
+}
+
+/* Paper Card */
+.paper-card {
+  background-color: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  height: 300px; /* Fixed height */
+  width: 100%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Title */
+.paper-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Description */
+.paper-desc {
+  flex-grow: 1;
+  font-size: 14px;
+  color: #555;
+}
+
+/* Tags */
+.paper-tags {
+  margin-top: 10px;
+}
+
+.tag {
+  display: inline-block;
+  background-color: #eee;
+  border-radius: 5px;
+  padding: 4px 8px;
+  font-size: 12px;
+  margin-right: 6px;
+  margin-top: 4px;
+}
+
+/* Buttons */
+.paper-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+
+.btn {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.view-btn {
+  background-color: #4caf50;
+  color: white;
+}
+
+.contribute-btn {
+  background-color: #2196f3;
+  color: white;
+}
