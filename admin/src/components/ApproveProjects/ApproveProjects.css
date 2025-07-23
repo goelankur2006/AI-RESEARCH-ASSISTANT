@@ -1,0 +1,120 @@
+.approve-projects-content {
+  padding: 30px;
+  background-color: #f0f2f5; 
+  flex-grow: 1; 
+}
+
+.page-title {
+  font-size: 2em;
+  color: #333;
+  margin-bottom: 25px;
+  text-align: left;
+}
+
+.no-projects-message {
+  font-size: 1.1em;
+  color: #666;
+  text-align: center;
+  margin-top: 50px;
+}
+
+.project-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; 
+}
+
+.project-card {
+  background-color: #e0f2f7; 
+  border-radius: 8px;
+  padding: 20px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+  transition: transform 0.2s ease-in-out;
+}
+
+.project-card:hover {
+  transform: translateY(-3px); 
+}
+
+.project-details {
+  flex-grow: 1; 
+  margin-right: 20px;
+}
+
+.project-name {
+  font-size: 1.3em;
+  color: #2c3e50; 
+  margin: 0 0 8px 0;
+}
+
+.project-description {
+  font-size: 0.95em;
+  color: #555;
+  margin: 0;
+}
+
+.project-actions {
+  display: flex;
+  gap: 10px; 
+}
+
+.action-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.9em;
+  transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+
+.action-button:active {
+  transform: translateY(1px); 
+}
+
+.approve-button {
+  background-color: #d4edda; 
+  color: #155724; 
+}
+
+.approve-button:hover {
+  background-color: #c3e6cb;
+}
+
+.reject-button {
+  background-color: #f8d7da; 
+  color: #721c24; 
+}
+
+.reject-button:hover {
+  background-color: #f5c6cb;
+}
+
+.approve-projects-content p {
+  text-align: center;
+  margin-top: 50px;
+  font-size: 1.2em;
+  color: #666;
+}
+
+.approve-projects-content.error {
+  color: #d8000c; 
+  font-weight: bold;
+}
+
+.approve-projects-content.error button {
+  background-color: #ffcccc;
+  color: #d8000c;
+  border: 1px solid #d8000c;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.approve-projects-content.error button:hover {
+  background-color: #ffaaaa;
+}
