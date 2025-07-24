@@ -1,0 +1,18 @@
+.teacher-sidebar {
+  width: 200px;
+  background-color: #f1f1f1;
+  min-height: 100vh;
+  padding: 1rem;
+  float: left;
+}
+.teacher-sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+.teacher-sidebar li {
+  margin: 15px 0;
+}
+.teacher-sidebar a {
+  text-decoration: none;
+  color: #333;
+}
