@@ -3,9 +3,10 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
 
+import teacherRoutes from './routes/teacherRoutes.js'
 import authRoutes from './routes/authRoutes.js'
 import paperRoutes from './routes/paperRoutes.js';
-import adminRoutes from './routes/adminRoutes.js'
+import adminRoutes from './routes/adminRoutes.js';
 
 dotenv.config();
 const app = express();
@@ -20,7 +21,9 @@ mongoose.connect(process.env.MONGO_URI)
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/papers', paperRoutes);
+app.use('/api/teacher', teacherRoutes);
 app.use('/api/admin', adminRoutes);
+
 
 
 const PORT = process.env.PORT || 5000;
