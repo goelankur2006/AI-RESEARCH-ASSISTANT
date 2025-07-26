@@ -28,3 +28,21 @@ export const updateProjectStatus = async (req, res) => {
     res.status(500).json({ message: 'Failed to update project status' });
   }
 };
+
+// ✅ POST add teacher
+export const addTeacher = async (req, res) => {
+  try {
+    const { name, email, subject } = req.body;
+
+    // You should ideally save this to the database:
+    // await Teacher.create({ name, email, subject });
+
+    console.log("Received Teacher:", { name, email, subject });
+
+    res.status(200).json({ message: "Teacher added successfully!" });
+  } catch (error) {
+    console.error('Error in addTeacher:', error);
+    res.status(500).json({ error: "Failed to add teacher" });
+  }
+};
+

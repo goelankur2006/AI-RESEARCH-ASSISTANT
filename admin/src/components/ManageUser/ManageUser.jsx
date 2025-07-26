@@ -10,7 +10,7 @@ const ManageAddUsers = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5000/api/teachers/add', {
+      const res = await axios.post('http://localhost:5000/api/teachers/add',{
         email,
         password,
       });
