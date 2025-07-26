@@ -1,20 +1,23 @@
-import React from 'react'
-import './Sidebar.css'
+import React from 'react';
+import { Link } from 'react-router-dom';  
+import './Sidebar.css';
 
 const Sidebar = () => {
   return (
     <div className="sidebar">
       <div className="sidebar-title"></div>
       <ul className="sidebar-list">
-        <li><a href="/Dashboard">Dashboard</a></li>
-        <li><a href="/ManageAddUsers">ManageAddUsers</a></li>
-        <li><a href="/ApproveProjects">ApproveProjects</a></li>
-        <li><a href="/manageProject">manageProject</a></li>
-        <li><a href="/ReviewContributions">ReviewContributions</a></li>
-        <li><a href="/MonitorPayments">MonitorPayments</a></li>
+        <li><Link to="/Dashboard">Dashboard</Link></li>
+        <li><Link to="/ManageAddUsers">Manage Add Users</Link></li>
+        <li><Link to="/ApproveProjects">Approve Projects</Link></li>
+        <li><Link to="/manageProject">Manage Project</Link></li>
+        <li><Link to="/ReviewContributions">Review Contributions</Link></li>
+        <li><Link to="/MonitorPayments">Monitor Payments</Link></li>
+
+        <li><Link to="/admin/teachers/add">Add Teacher</Link></li>
       </ul>
     </div>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;
