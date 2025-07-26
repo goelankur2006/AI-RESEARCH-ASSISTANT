@@ -1,7 +1,8 @@
+// models/Project.js
 import mongoose from 'mongoose';
 
 const projectSchema = new mongoose.Schema({
-  title: String,
+  title: { type: String, required: true },
   domain: String,
   description: String,
   startDate: Date,
@@ -10,14 +11,13 @@ const projectSchema = new mongoose.Schema({
   technologies: String,
   budget: String,
   guide: String,
-  document: Buffer,
+  document: Buffer, // optionally use { type: Buffer, contentType: String } for file uploads
   status: {
-  type: String,
-  enum: ['Pending', 'Approved', 'Rejected', 'Running', 'Completed'],
-  default: 'Pending'
+    type: String,
+    enum: ['pending', 'approved', 'rejected', 'running', 'completed'],
+    default: 'pending'
   },
-  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
-});
+  submittedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+}, { timestamps: true });
 
-
-export default mongoose.model("Project", projectSchema);
+export default mongoose.model('Project', projectSchema);
