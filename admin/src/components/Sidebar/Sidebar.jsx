@@ -8,13 +8,11 @@ const Sidebar = () => {
       <div className="sidebar-title"></div>
       <ul className="sidebar-list">
         <li><Link to="/Dashboard">Dashboard</Link></li>
-        <li><Link to="/ManageAddUsers">Manage Add Users</Link></li>
+        <li><Link to="/ManageUser">Manage Users</Link></li>
         <li><Link to="/ApproveProjects">Approve Projects</Link></li>
         <li><Link to="/manageProject">Manage Project</Link></li>
         <li><Link to="/ReviewContributions">Review Contributions</Link></li>
         <li><Link to="/MonitorPayments">Monitor Payments</Link></li>
-
-        <li><Link to="/admin/teachers/add">Add Teacher</Link></li>
       </ul>
     </div>
   );
