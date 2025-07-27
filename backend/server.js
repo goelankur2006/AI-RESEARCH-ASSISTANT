@@ -14,6 +14,7 @@ import authRoutes from './routes/authRoutes.js';
 import paperRoutes from './routes/paperRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import projectRoutes from './routes/projectRoutes.js';
+import userRouter from './routes/userRoute.js';
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.use('/api/papers', paperRoutes);
 app.use('/api/teachers', teacherRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api', projectRoutes);  // ✅ /api/projects
+app.use("/api/User",userRouter)
 
 // Start the server
 const PORT = process.env.PORT || 5000;
