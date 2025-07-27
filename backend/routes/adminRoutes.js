@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.get('/pending-projects', getAllPendingProjects);
 router.put('/update-project-status/:projectId', updateProjectStatus);
-router.post('/teachers/add', addTeacher); // ✅ FIXED
+router.post('/teachers/add', addTeacher); 
 
 export default router;
 
