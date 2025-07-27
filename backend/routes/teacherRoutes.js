@@ -1,5 +1,5 @@
 import express from 'express';
-import { addProject } from '../controller/teacherController.js';
+import { addProject,addTeacher } from '../controllers/teacherController.js';
 import multer from 'multer';
 
 
@@ -10,5 +10,6 @@ const upload = multer({ storage });
 
 router.post('/add-project', upload.single('document'), addProject);
 
+router.post('/add', addTeacher);
 
 export default router;

@@ -12,6 +12,7 @@ import ManageProject from './components/ManageProjects/ManageProjects';
 import ReviewContributions from './components/ReviewContributions/ReviewContributions';
 import MonitorPayments from './components/MonitorPayments/MonitorPayments';
 
+
 const App = () => {
   return (
     <div className="app">
@@ -26,6 +27,7 @@ const App = () => {
             <Route path="/manageProject" element={<ManageProject />} />
             <Route path="/reviewContributions" element={<ReviewContributions />} />
             <Route path="/monitorPayments" element={<MonitorPayments />} />
+            
           </Routes>
         </div>
       </div>

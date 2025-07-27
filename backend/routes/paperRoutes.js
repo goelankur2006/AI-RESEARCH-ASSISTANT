@@ -3,7 +3,7 @@ import {
   getAllPapers,
   getPaperById,
   createPaper,
-} from '../controller/PaperController.js';
+} from '../controllers/PaperController.js';
 
 const router = express.Router();
 

@@ -17,12 +17,20 @@ const ManageProjects = () => {
 
   const fetchProjects = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/admin/projects');
-      setProjects({
-        running: res.data.running || [],
-        rejected: res.data.rejected || [],
-        completed: res.data.completed || [],
+      const res = await axios.get('/api/projects'); // Vite proxy handles localhost
+      const grouped = {
+        running: [],
+        completed: [],
+        rejected: []
+      };
+
+      res.data.forEach(project => {
+        if (project.status === 'approved') grouped.completed.push(project);
+        else if (project.status === 'rejected') grouped.rejected.push(project);
+        else grouped.running.push(project);
       });
+
+      setProjects(grouped);
       setLoading(false);
     } catch (err) {
       console.error('Error fetching projects:', err);
@@ -30,17 +38,42 @@ const ManageProjects = () => {
     }
   };
 
-  const renderProjectList = (projectArray) => {
-    return projectArray.length === 0 ? (
-      <p className="empty-msg">No projects in this category.</p>
-    ) : (
+  const handleApprove = async (id) => {
+    try {
+      await axios.put(`/api/projects/${id}/approve`);
+      fetchProjects();
+    } catch (err) {
+      console.error('Error approving project:', err);
+    }
+  };
+
+  const handleReject = async (id) => {
+    try {
+      await axios.put(`/api/projects/${id}/reject`);
+      fetchProjects();
+    } catch (err) {
+      console.error('Error rejecting project:', err);
+    }
+  };
+
+  const renderProjectList = (list) => {
+    if (list.length === 0) return <p className="empty-msg">No projects in this category.</p>;
+
+    return (
       <div className="project-list">
-        {projectArray.map((proj) => (
+        {list.map((proj) => (
           <div key={proj._id} className="project-card">
             <h3>{proj.title}</h3>
             <p><strong>Submitted by:</strong> {proj.teacherName || 'Unknown'}</p>
             <p><strong>Status:</strong> {proj.status}</p>
             <p>{proj.description}</p>
+
+            {proj.status === 'pending' && (
+              <div className="button-group">
+                <button onClick={() => handleApprove(proj._id)} className="approve-btn">Approve</button>
+                <button onClick={() => handleReject(proj._id)} className="reject-btn">Reject</button>
+              </div>
+            )}
           </div>
         ))}
       </div>
@@ -60,9 +93,7 @@ const ManageProjects = () => {
       </div>
 
       <div className="tab-content">
-        {activeTab === 'running' && renderProjectList(projects.running)}
-        {activeTab === 'completed' && renderProjectList(projects.completed)}
-        {activeTab === 'rejected' && renderProjectList(projects.rejected)}
+        {renderProjectList(projects[activeTab])}
       </div>
     </div>
   );
