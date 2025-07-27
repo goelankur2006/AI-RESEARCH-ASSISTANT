@@ -3,7 +3,7 @@
     display:flex;
     justify-content: space-between;
     align-items:center;
-    background-color: rgba(0, 0, 0, 0.888);
+    background-color: rgba(1, 1, 1, 0.888);
     margin-top: 20px;
 }
 .navbar .logo{
@@ -13,7 +13,7 @@
     display:flex;
     list-style:none;
     gap:100px;
-    color:white;
+    color:rgb(211, 178, 178);
     font-size:20px;
     margin-left:20px;
     cursor:pointer;
@@ -28,13 +28,13 @@ button{
     padding:10px 20px;
     border-radius:5px;
     border:none;
-    background-color:rgb(4, 95, 156);
+    background-color:rgb(52, 82, 101);
     color:white;
     font-size:16px;
     cursor:pointer;
 }
 .navbar-research :hover {
-  color: #00bfff;
+  color: #d1dfe4;
 }
 
 
@@ -59,7 +59,7 @@ button{
   border: 1px solid #ccc;
   display: none;
   z-index: 10;
-  color: #000;
+  color: #fdf1f1;
 }
 
 .navbar-profile:hover .profile-dropdown {
@@ -76,3 +76,4 @@ button{
   cursor: pointer;
   color: #000;
 }
+
