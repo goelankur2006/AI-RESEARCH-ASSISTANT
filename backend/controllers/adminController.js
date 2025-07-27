@@ -1,4 +1,6 @@
 import Project from '../models/Project.js';
+import bcrypt from 'bcrypt';
+import Teacher from '../models/Teacher.js';
 
 // GET all pending projects
 export const getAllPendingProjects = async (req, res) => {
@@ -29,20 +31,34 @@ export const updateProjectStatus = async (req, res) => {
   }
 };
 
-// ✅ POST add teacher
+
 export const addTeacher = async (req, res) => {
   try {
-    const { name, email, subject } = req.body;
+    const { name, course, email, password } = req.body;
 
-    // You should ideally save this to the database:
-    // await Teacher.create({ name, email, subject });
+    if (!name || !course || !email || !password) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
 
-    console.log("Received Teacher:", { name, email, subject });
+    // Check if teacher already exists
+    const existing = await Teacher.findOne({ email });
+    if (existing) {
+      return res.status(409).json({ message: 'Teacher already exists with this email' });
+    }
 
-    res.status(200).json({ message: "Teacher added successfully!" });
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10); // 10 is the salt rounds
+
+    const newTeacher = await Teacher.create({
+      name,
+      course,
+      email,
+      password: hashedPassword,
+    });
+
+    res.status(200).json({ message: "Teacher added successfully", teacher: newTeacher });
   } catch (error) {
     console.error('Error in addTeacher:', error);
-    res.status(500).json({ error: "Failed to add teacher" });
+    res.status(500).json({ message: "Failed to add teacher" });
   }
 };
-
