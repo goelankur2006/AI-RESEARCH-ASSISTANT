@@ -10,6 +10,7 @@ import ApproveProjects from './components/ApproveProjects/ApproveProjects';
 import ManageProject from './components/ManageProjects/ManageProjects';
 import ReviewContributions from './components/ReviewContributions/ReviewContributions';
 import MonitorPayments from './components/MonitorPayments/MonitorPayments';
+import Home from './pages/Home/Home';
 
 
 
@@ -21,6 +22,7 @@ const App = () => {
         <Sidebar />
         <div style={{ flex: 1, padding: '20px' }}>
           <Routes>
+            <Route path="/" element={<Home />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/ManageUser" element={<ManageUser />} />
             <Route path="/approveProjects" element={<ApproveProjects />} />
