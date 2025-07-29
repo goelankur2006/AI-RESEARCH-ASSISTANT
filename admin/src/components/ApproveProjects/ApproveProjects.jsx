@@ -11,7 +11,7 @@ const ApproveProjects = () => {
       setLoading(true);
       setError(null);
 
-      const res = await fetch('http://localhost:5000/api/projects');
+      const res = await fetch('http://localhost:5000/api/projects/pending');
       const data = await res.json();
 
       setProjects(data);
@@ -44,9 +44,15 @@ const ApproveProjects = () => {
   };
 
   const handleReject = async (projectId) => {
+    const feedback = prompt("Enter reason for rejection:");
+    if (feedback === null) return; // Cancelled
     try {
       const res = await fetch(`http://localhost:5000/api/projects/${projectId}/reject`, {
         method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ feedback }),
       });
 
       if (!res.ok) throw new Error("Failed to reject project");
@@ -78,18 +84,30 @@ const ApproveProjects = () => {
           {projects.map((project) => (
             <div key={project._id} className="project-card">
               <div className="project-details">
-                <h3 className="project-name">{project.name}</h3>
+                <h3 className="project-name">{project.title}</h3>
                 {project.description && (
                   <p className="project-description">{project.description}</p>
                 )}
               </div>
+
               <div className="project-actions">
+                <a
+                  href={`http://localhost:5000/api/projects/${project._id}/download`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <button className="action-button download-button">
+                    Download Document
+                  </button>
+                </a>
+
                 <button
                   className="action-button approve-button"
                   onClick={() => handleApprove(project._id)}
                 >
                   Approve
                 </button>
+
                 <button
                   className="action-button reject-button"
                   onClick={() => handleReject(project._id)}
@@ -106,5 +124,3 @@ const ApproveProjects = () => {
 };
 
 export default ApproveProjects;
-
-
