@@ -4,11 +4,11 @@ import './ManageProjects.css';
 
 const ManageProjects = () => {
   const [projects, setProjects] = useState({
-    running: [],
+    pending: [],
     rejected: [],
     completed: [],
   });
-  const [activeTab, setActiveTab] = useState('running');
+  const [activeTab, setActiveTab] = useState('pending');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -19,7 +19,7 @@ const ManageProjects = () => {
     try {
       const res = await axios.get('/api/projects'); // Vite proxy handles localhost
       const grouped = {
-        running: [],
+        pending: [],
         completed: [],
         rejected: []
       };
@@ -30,31 +30,27 @@ const ManageProjects = () => {
         else grouped.running.push(project);
       });
 
-      setProjects(grouped);
+      setProjects({ pending: res.data, completed: [], rejected: [] });
       setLoading(false);
     } catch (err) {
       console.error('Error fetching projects:', err);
       setLoading(false);
     }
   };
+   const handleAction = async (id, status) => {
+    let feedback = '';
+    if (status === 'rejected') {
+      feedback = prompt('Enter reason for rejection:');
+    }
 
-  const handleApprove = async (id) => {
     try {
-      await axios.put(`/api/projects/${id}/approve`);
+      await axios.put(`/api/projects/${id}`, { status, feedback });
       fetchProjects();
     } catch (err) {
-      console.error('Error approving project:', err);
+      console.error(`Error updating project status to ${status}:`, err);
     }
   };
-
-  const handleReject = async (id) => {
-    try {
-      await axios.put(`/api/projects/${id}/reject`);
-      fetchProjects();
-    } catch (err) {
-      console.error('Error rejecting project:', err);
-    }
-  };
+  
 
   const renderProjectList = (list) => {
     if (list.length === 0) return <p className="empty-msg">No projects in this category.</p>;
@@ -70,8 +66,8 @@ const ManageProjects = () => {
 
             {proj.status === 'pending' && (
               <div className="button-group">
-                <button onClick={() => handleApprove(proj._id)} className="approve-btn">Approve</button>
-                <button onClick={() => handleReject(proj._id)} className="reject-btn">Reject</button>
+                <button onClick={() => handleAction(proj._id,"approved")}className="approve-btn">Approve</button>
+                <button onClick={() => handleAction(proj._id,"rejected")} className="reject-btn">Reject</button>
               </div>
             )}
           </div>
