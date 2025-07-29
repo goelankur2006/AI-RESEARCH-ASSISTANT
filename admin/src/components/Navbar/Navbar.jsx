@@ -1,7 +1,31 @@
-import React from 'react';
+import {React, useState, useEffect} from 'react';
 import './Navbar.css';
+import { IoPerson } from "react-icons/io5"; // or "react-icons/io" based on your usage
+import { Link } from 'react-router-dom';
+import LoginPopup from '../LoginPopup/LoginPopup';
 
 const Navbar = () => {
+    const [showPopup, setShowPopup] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        setIsLoggedIn(!!token);
+      }, []);
+    
+      // When login popup closes, update login state
+      const handleLoginClose = () => {
+        const token = localStorage.getItem("token");
+        setIsLoggedIn(!!token);
+        setShowPopup(false);
+      };
+    
+      const handleLogout = () => {
+        localStorage.removeItem("token");
+        setIsLoggedIn(false);
+      };
+
+
   return (
     <nav className="admin-navbar">
       <div className="nav-left">
@@ -13,10 +37,24 @@ const Navbar = () => {
         <a href="/settings" className="nav-link">Settings</a>
         <input type="text" placeholder="Search..." className="search-bar" />
       </div>
-
-      <div className="nav-right">
-        <button className="profile-btn">Sign Up / Profile</button>
+      <div className="navbar-right">
+        {isLoggedIn ? (
+          <div className="navbar-profile">
+            <IoPerson alt="Profile"
+              className="profile-icon" />
+            
+            <div className="profile-dropdown">
+              <Link to="/Profile">Profile</Link>
+              <button onClick={handleLogout}>Logout</button>
+            </div>
+          </div>
+        ) : (
+          <button onClick={() => setShowPopup(true)}>Sign up / Login</button>
+        )}
       </div>
+
+      {showPopup && <LoginPopup onClose={handleLoginClose} />}
+
     </nav>
   );
 };
