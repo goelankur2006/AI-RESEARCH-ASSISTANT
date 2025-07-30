@@ -31,7 +31,6 @@ const AddProject = () => {
       for (let key in formData) {
         projectData.append(key, formData[key]);
       }
-      projectData.append("status", "pending");
 
       await axios.post('http://localhost:5000/api/teacher/add-project', projectData, {
         headers: {
