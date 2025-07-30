@@ -6,7 +6,6 @@ const MyResearches = () => {
 
   useEffect(() => {
     axios.get('http://localhost:5000/api/teacher/my-projects').then(res => {
-      const approved = res.data.filter(p => p.status === "approved");
       setProjects(res.data);
     });
   }, []);

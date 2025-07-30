@@ -34,14 +34,16 @@ export const addProject = async (req, res) => {
       budget,
       guide,
       document,
-      status: 'pending'
-    }); 
+      status: 'Pending'
+    });
 
     await newProject.save();
+
+    console.log("✅ Project saved successfully!");
     res.status(201).json({ message: 'Project added successfully' });
 
   } catch (error) {
-    console.error("Error in addProject controller:", error);
+    console.error("❌ Error in addProject controller:", error);
     res.status(500).json({ message: 'Server Error', error: error.message });
   }
 };
