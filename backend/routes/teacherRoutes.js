@@ -9,4 +9,7 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 router.post('/add-project', upload.single('document'), addProject);
+
+router.post('/add', addTeacher);
+
 export default router;
