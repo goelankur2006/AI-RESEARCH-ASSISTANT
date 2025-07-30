@@ -26,20 +26,20 @@ mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/researchDB'
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(() => {
-  console.log("Connected to MongoDB");
+  console.log("✅ Connected to MongoDB");
 }).catch((err) => {
-  console.error("MongoDB connection error:", err);
+  console.error("❌ MongoDB connection error:", err);
 });
 
 // Register routes
 app.use('/api/auth', authRoutes);
 app.use('/api/papers', paperRoutes);
-app.use('/api/teacher', teacherRoutes);
+app.use('/api/teachers', teacherRoutes);
 app.use('/api/admin', adminRoutes);
-app.use('/api', projectRoutes);  // /api/projects
+app.use('/api', projectRoutes);  // ✅ /api/projects
 
 // Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`server running on http://localhost:${PORT}`);
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
