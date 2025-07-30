@@ -11,7 +11,7 @@ const projectSchema = new mongoose.Schema({
   technologies: String,
   budget: String,
   guide: String,
-  document: Buffer,
+  document: Buffer, // optionally use { type: Buffer, contentType: String } for file uploads
   status: {
     type: String,
     enum: ['pending', 'approved', 'rejected', 'running', 'completed'],
