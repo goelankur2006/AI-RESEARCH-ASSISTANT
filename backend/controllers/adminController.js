@@ -49,7 +49,7 @@ export const addTeacher = async (req, res) => {
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10); // 10 is the salt rounds
 
-    const newTeacher = await Teacher.create({
+    const newTeacher = new Teacher({
       name,
       course,
       email,
