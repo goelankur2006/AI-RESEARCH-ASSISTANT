@@ -16,7 +16,7 @@ const App = () => {
   return (
     <Router>
       <div className="teacher-panel">
-        <Navbar teacherName="Deepanshi" />
+        <Navbar/>
         <Sidebar />
         <div className="main-content">
           <Routes>
