@@ -27,16 +27,20 @@ export const approveProject = async (req, res) => {
 // PUT: Reject a project
 export const rejectProject = async (req, res) => {
   try {
+    const { feedback } = req.body;
+
     const project = await Project.findByIdAndUpdate(
       req.params.id,
-      { status: 'rejected',feedback: req.body.feedback || '' },
+      { status: 'rejected', feedback }, // ✅ Save feedback
       { new: true }
     );
+
     res.status(200).json(project);
   } catch (err) {
     res.status(500).json({ error: 'Failed to reject project' });
   }
 };
+
 
 // GET: Fetch pending only
 export const getPendingProjects = async (req, res) => {
@@ -67,4 +71,15 @@ export const downloadProjectDocument = async (req, res) => {
     res.status(500).json({ error: 'Failed to download file' });
   }
 };
+
+export const getProjectsByTeacherId = async (req, res) => {
+  try {
+    const { teacherId } = req.params;
+    const projects = await Project.find({ submittedBy: teacherId });
+    res.status(200).json(projects);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch teacher's projects" });
+  }
+};
+
 
