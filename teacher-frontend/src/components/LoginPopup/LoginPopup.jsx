@@ -9,10 +9,11 @@ const LoginPopup = ({ onClose }) => {
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post('http://localhost:5000/api/teacher/add/login', {
-        email,
-        password
+      const res = axios.post("http://localhost:5000/api/teacher/login", {
+        email: "deepanshigupta585@gmail.com",
+        password: "yourPlainPassword"
       });
+
 
       localStorage.setItem("token", res.data.token);
       alert("Login successful!");
