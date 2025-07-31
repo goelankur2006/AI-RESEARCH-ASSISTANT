@@ -1,8 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
+import  RejectedProjects  from './pages/RejectedProjects/RejectedProjects';
 import Sidebar from './components/TeacherSidebar/TeacherSidebar';
 import AddProject from './pages/AddProject/AddProject';
+import PendingProjects from './pages/PendingProjects/PendingProjects';
 import MyResearches from './pages/MyResearches/MyResearches';
 import MyAssistants from './pages/MyAssistants/MyAssistants';
 import MakePayment from './pages/MakePayment/MakePayment';
@@ -26,6 +27,8 @@ const App = () => {
             <Route path="/teacher/my-researches" element={<MyResearches />} />
             <Route path="/teacher/my-assistants" element={<MyAssistants />} />
             <Route path="/teacher/make-payment" element={<MakePayment />} />
+            <Route path="/teacher/pending-projects" element={<PendingProjects />} />
+            <Route path="/teacher/rejected-projects" element={<RejectedProjects/>} /> 
           </Routes>
 
         </div>
