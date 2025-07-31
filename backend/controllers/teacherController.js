@@ -2,7 +2,7 @@ import Project from '../models/Project.js';
 import Teacher from '../models/Teacher.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-
+import User from '../models/User.js';
 
 /**
  * POST /api/teachers/add-project
@@ -51,37 +51,6 @@ export const addProject = async (req, res) => {
 };
 
 /**
- * POST /api/teachers/add
- */
-
-export const addTeacher = async (req, res) => {
-  try {
-    const { name, course, email, password } = req.body;
-
-    const existing = await Teacher.findOne({ email });
-    if (existing) {
-      return res.status(400).json({ message: 'Teacher with this email already exists' });
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10); // 🔐 hash it before saving
-
-    const newTeacher = new Teacher({
-      name,
-      course,           // or department, depending on your schema
-      email,
-      password: hashedPassword,
-    });
-
-    await newTeacher.save();
-
-    res.status(201).json({ message: 'Teacher registered successfully' });
-  } catch (error) {
-    console.error("Error in addTeacher:", error);
-    res.status(500).json({ message: 'Server error while registering teacher' });
-  }
-};
-
-/**
  * GET /api/teachers/my-projects
  */
 export const getMyProjects = async (req, res) => {
@@ -103,7 +72,7 @@ export const loginTeacher = async (req, res) => {
   try {
     console.log("🔐 Login attempt:", email);
 
-    const teacher = await Teacher.findOne({ email });
+    const teacher = await User.findOne({ email, role: 'teacher' });
     if (!teacher) return res.status(404).json({ error: 'Teacher not found' });
 
     const isMatch = await bcrypt.compare(password, teacher.password);
@@ -113,7 +82,7 @@ export const loginTeacher = async (req, res) => {
 
     res.json({ token, name: teacher.name });
   } catch (err) {
-    console.error("❌ Login error:", err); // <-- log full error stack
+    console.error("❌ Login error:", err);
     res.status(500).json({ error: 'Login failed', detail: err.message });
   }
 };
