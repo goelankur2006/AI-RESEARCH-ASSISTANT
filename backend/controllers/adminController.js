@@ -1,7 +1,7 @@
 import Project from '../models/Project.js';
 import bcrypt from 'bcrypt';
 import Teacher from '../models/Teacher.js';
-
+import User from '../models/User.js';
 // GET all pending projects
 export const getAllPendingProjects = async (req, res) => {
   try {
@@ -32,33 +32,19 @@ export const updateProjectStatus = async (req, res) => {
 };
 
 
-export const addTeacher = async (req, res) => {
+export const addUser = async (req, res) => {
   try {
-    const { name, course, email, password } = req.body;
+    const { name, email, password, role } = req.body;
 
-    if (!name || !course || !email || !password) {
-      return res.status(400).json({ message: 'All fields are required' });
-    }
+    // hash password before saving
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Check if teacher already exists
-    const existing = await Teacher.findOne({ email });
-    if (existing) {
-      return res.status(409).json({ message: 'Teacher already exists with this email' });
-    }
+    const user = new User({ name, email, password: hashedPassword, role });
+    await user.save();
 
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10); // 10 is the salt rounds
-
-    const newTeacher = new Teacher({
-      name,
-      course,
-      email,
-      password: hashedPassword,
-    });
-
-    res.status(200).json({ message: "Teacher added successfully", teacher: newTeacher });
-  } catch (error) {
-    console.error('Error in addTeacher:', error);
-    res.status(500).json({ message: "Failed to add teacher" });
+    res.json({ message: "User added successfully", user });
+  } catch (err) {
+    console.error("Add user error:", err);
+    res.status(500).json({ error: "Failed to add user", detail: err.message });
   }
 };
