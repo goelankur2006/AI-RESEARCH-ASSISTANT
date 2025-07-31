@@ -12,7 +12,6 @@ import authRoutes from './routes/authRoutes.js';
 import paperRoutes from './routes/paperRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import projectRoutes from './routes/projectRoutes.js';
-import userRouter from './routes/userRoute.js';
 
 const app = express();
 
@@ -33,10 +32,9 @@ mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/researchDB'
 // Register routes
 app.use('/api/auth', authRoutes);
 app.use('/api/papers', paperRoutes);
-app.use('/api/teachers', teacherRoutes);
+app.use('/api/teacher', teacherRoutes);
 app.use('/api/admin', adminRoutes);
-app.use('/api', projectRoutes);  // ✅ /api/projects
-app.use("/api/User",userRouter)
+app.use('/api', projectRoutes);  
 
 // Start the server
 const PORT = process.env.PORT || 5000;
