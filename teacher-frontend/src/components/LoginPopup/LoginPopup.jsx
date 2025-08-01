@@ -7,22 +7,33 @@ const LoginPopup = ({ onClose }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = async () => {
-    try {
-      // ✅ Send actual user input to backend
-      const res = await axios.post("http://localhost:5000/api/teacher/login", {
-        email,
-        password
-      });
+const handleLogin = async (e) => {
+  e.preventDefault();
+  try {
+    const res = await axios.post('http://localhost:5000/api/teacher/login', {
+      email,
+      password
+    });
 
-      localStorage.setItem("token", res.data.token);
-      alert("Login successful!");
-      onClose();
-    } catch (error) {
-      console.error("Login error:", error.response?.data || error.message);
-      alert(error.response?.data?.message || "Login failed");
+    console.log("🧠 Login response data:", res.data); // 👈 Add this
+
+    const { teacherId, token } = res.data;
+
+    if (teacherId) {
+      localStorage.setItem('teacherId', teacherId);
+      localStorage.setItem('token', token);
+      alert("Login successful");
+      window.location.reload(); // force reload to propagate auth state
+    } else {
+      alert("❌ teacherId missing in response");
     }
-  };
+  } catch (err) {
+    console.error("Login error:", err);
+    alert("Login failed");
+  }
+};
+
+
 
   return (
     <div className='login-popup'>
