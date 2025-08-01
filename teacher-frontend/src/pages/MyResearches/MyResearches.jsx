@@ -23,7 +23,7 @@ const MyResearches = () => {
 
   return (
     <div>
-      <h2>My Approved Research Projects</h2>
+      <h2>Approved Research Projects</h2>
       {projects.length === 0 ? (
         <p>No approved projects yet.</p>
       ) : (
