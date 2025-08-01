@@ -11,7 +11,6 @@ const upload = multer({ storage });
 router.post('/add-project', upload.single('document'), addProject);
 
 
-router.post('/add-project', addProject);
 
 router.post('/login', loginTeacher);
 
