@@ -41,8 +41,7 @@ export const addUser = async (req, res) => {
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
-
-    // ✅ Hash the password
+  
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Save user
