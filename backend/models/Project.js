@@ -17,7 +17,7 @@ const projectSchema = new mongoose.Schema({
     enum: ['pending', 'approved', 'rejected', 'running', 'completed'],
     default: 'pending'
   },
-  submittedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+  submittedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'Teacher' }
 }, { timestamps: true });
 
 export default mongoose.model('Project', projectSchema);

@@ -5,16 +5,14 @@ import './PendingProjects.css';
 const PendingProjects = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
-  const teacherId = localStorage.getItem('teacherId'); // Replace with actual login data
+  const teacherId = localStorage.getItem('teacherId');
 
   useEffect(() => {
     const fetchPendingProjects = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/projects');
-        const pending = res.data.filter(
-          proj => proj.status === 'pending' && proj.teacherId === teacherId
-        );
-        setProjects(pending);
+        const res = await axios.get(`http://localhost:5000/api/projects/teacher/${teacherId}`);
+        const pendingProjects = res.data.filter(p => p.status === 'pending');
+        setProjects(pendingProjects);
       } catch (err) {
         console.error('Error fetching pending projects:', err);
       } finally {
@@ -22,7 +20,11 @@ const PendingProjects = () => {
       }
     };
 
-    fetchPendingProjects();
+    if (teacherId) {
+      fetchPendingProjects();
+    } else {
+      setLoading(false);
+    }
   }, [teacherId]);
 
   if (loading) return <p>Loading pending projects...</p>;
