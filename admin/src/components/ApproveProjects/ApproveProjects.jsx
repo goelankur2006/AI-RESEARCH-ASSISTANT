@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import './ApproveProjects.css';
-import axios from 'axios';
-
 
 const ApproveProjects = () => {
   const [projects, setProjects] = useState([]);
@@ -9,21 +7,28 @@ const ApproveProjects = () => {
   const [error, setError] = useState(null);
 
   // Fetch pending projects from API
-  const fetchProjects = async () => {
-    try {
-      const res = await axios.get('/api/projects');
+const fetchProjects = async () => {
+  try {
+    const res = await axios.get('/api/projects'); // Vite proxy handles localhost
+    const grouped = {
+      running: [],
+      completed: [],
+      rejected: []
+    };
 
-      // Filter only pending projects
-      const pendingProjects = res.data.filter(project => project.status === 'pending');
+    res.data.forEach(project => {
+      if (project.status === 'approved') grouped.completed.push(project);
+      else if (project.status === 'rejected') grouped.rejected.push(project);
+      else grouped.running.push(project);
+    });
 
-      setProjects(pendingProjects);
-      setLoading(false);
-    } catch (err) {
-      console.error('Error fetching projects:', err);
-      setError('Failed to fetch projects');
-      setLoading(false);
-    }
-  };
+    setProjects(grouped);
+    setLoading(false);
+  } catch (err) {
+    console.error('Error fetching projects:', err);
+    setLoading(false);
+  }
+};
 
 
   useEffect(() => {
@@ -96,7 +101,6 @@ const ApproveProjects = () => {
               </div>
 
               <div className="project-actions">
-                <p>Employee ID: {project.submittedBy?.employeeId}</p>
                 <a
                   href={`http://localhost:5000/api/projects/${project._id}/document`}
                   target="_blank"
