@@ -11,14 +11,13 @@ const projectSchema = new mongoose.Schema({
   technologies: String,
   budget: String,
   guide: String,
-  document: Buffer, // optionally use { type: Buffer, contentType: String } for file uploads
+  document: Buffer,
   status: {
     type: String,
     enum: ['pending', 'approved', 'rejected', 'running', 'completed'],
     default: 'pending'
   },
-  submittedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'Teacher' }
+  submittedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 }, { timestamps: true });
 
 export default mongoose.model('Project', projectSchema);
-

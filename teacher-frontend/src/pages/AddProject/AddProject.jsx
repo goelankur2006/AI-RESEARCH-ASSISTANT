@@ -27,14 +27,11 @@ const AddProject = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const teacherId = localStorage.getItem('teacherId'); 
-
       const projectData = new FormData();
       for (let key in formData) {
         projectData.append(key, formData[key]);
       }
-
-      projectData.append('submittedBy', teacherId); 
+      projectData.append("status", "pending");
 
       await axios.post('http://localhost:5000/api/teacher/add-project', projectData, {
         headers: {
