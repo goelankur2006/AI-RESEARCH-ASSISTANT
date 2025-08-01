@@ -7,6 +7,6 @@ const teacherSchema = new mongoose.Schema({
   password: { type: String, required: true }, // Hash in production
 }, { timestamps: true });
 
-const Teacher = mongoose.model('Teacher', teacherSchema);
+const TeacherId = mongoose.model('Teacher', teacherSchema);
 
-export default Teacher;
+export default TeacherId;

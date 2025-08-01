@@ -10,12 +10,12 @@ import {
 
 const router = express.Router();
 
-router.get('/projects', getAllProjects);
-router.put('/projects/:id/approve', approveProject);
-router.put('/projects/:id/reject', rejectProject);
-router.get('/projects/:id/document', downloadProjectDocument);
-router.get('/projects/pending', getPendingProjects);
-router.get('/projects/teacher/:teacherId', getProjectsByTeacherId);
+router.get('/', getAllProjects);
+router.put('/:id/approve', approveProject);
+router.put('/:id/reject', rejectProject);
+router.get('/:id/document', downloadProjectDocument);
+router.get('/pending', getPendingProjects);
+router.get('/teacher/:teacherId', getProjectsByTeacherId);
 
 
 

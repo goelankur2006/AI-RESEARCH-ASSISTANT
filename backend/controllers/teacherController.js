@@ -1,5 +1,5 @@
 import Project from '../models/Project.js';
-import Teacher from '../models/Teacher.js';
+import TeacherId from '../models/Teacher.js'; 
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
@@ -39,7 +39,7 @@ export const addProject = async (req, res) => {
       budget,
       guide,
       document,
-      submittedBy: teacherId,
+      submittedBy: req.body.teacherId,
       status: 'pending'
     }); 
 

@@ -6,17 +6,18 @@ const ApproveProjects = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Fetch pending projects from API
   const fetchProjects = async () => {
     try {
       setLoading(true);
-      setError(null);
-
       const res = await fetch('http://localhost:5000/api/projects/pending');
-      const data = await res.json();
 
+      if (!res.ok) throw new Error("Failed to fetch projects");
+
+      const data = await res.json();
       setProjects(data);
     } catch (err) {
-      console.error("Failed to fetch projects:", err);
+      console.error("❌ Fetch error:", err);
       setError("Failed to load projects. Please try again.");
     } finally {
       setLoading(false);
@@ -27,25 +28,28 @@ const ApproveProjects = () => {
     fetchProjects();
   }, []);
 
+  // Approve a project
   const handleApprove = async (projectId) => {
     try {
       const res = await fetch(`http://localhost:5000/api/projects/${projectId}/approve`, {
         method: 'PUT',
       });
 
-      if (!res.ok) throw new Error("Failed to approve project");
+      if (!res.ok) throw new Error("Approval failed");
 
       setProjects(prev => prev.filter(project => project._id !== projectId));
-      alert('Project approved!');
+      alert('✅ Project approved!');
     } catch (err) {
-      console.error('Error approving project:', err);
+      console.error("❌ Approve error:", err);
       alert(`Error: ${err.message}`);
     }
   };
 
+  // Reject a project with feedback
   const handleReject = async (projectId) => {
-    const feedback = prompt("Enter reason for rejection:");
-    if (feedback === null) return; // Cancelled
+    const feedback = prompt("Enter rejection reason:");
+    if (!feedback) return;
+
     try {
       const res = await fetch(`http://localhost:5000/api/projects/${projectId}/reject`, {
         method: 'PUT',
@@ -55,59 +59,54 @@ const ApproveProjects = () => {
         body: JSON.stringify({ feedback }),
       });
 
-      if (!res.ok) throw new Error("Failed to reject project");
+      if (!res.ok) throw new Error("Rejection failed");
 
       setProjects(prev => prev.filter(project => project._id !== projectId));
-      alert('Project rejected!');
+      alert('❌ Project rejected!');
     } catch (err) {
-      console.error('Error rejecting project:', err);
+      console.error("❌ Reject error:", err);
       alert(`Error: ${err.message}`);
     }
   };
 
-  if (loading) return <div className="approve-projects-content"><p>Loading projects...</p></div>;
-
+  // Loading or error states
+  if (loading) return <p>Loading pending projects...</p>;
   if (error) return (
-    <div className="approve-projects-content error">
+    <div>
       <p>{error}</p>
       <button onClick={fetchProjects}>Retry</button>
     </div>
   );
 
+  // Render list
   return (
     <div className="approve-projects-content">
-      <h1 className="page-title">Approve Projects</h1>
+      <h2>Projects Awaiting Approval</h2>
       {projects.length === 0 ? (
-        <p className="no-projects-message">No projects currently awaiting approval.</p>
+        <p>No projects pending approval.</p>
       ) : (
         <div className="project-list-container">
-          {projects.map((project) => (
-            <div key={project._id} className="project-card">
+          {projects.map(project => (
+            <div className="project-card" key={project._id}>
               <div className="project-details">
-                <h3 className="project-name">{project.title}</h3>
-                {project.description && (
-                  <p className="project-description">{project.description}</p>
-                )}
+                <h3>{project.title}</h3>
+                <p>{project.description}</p>
               </div>
 
               <div className="project-actions">
                 <a
-                  href={`http://localhost:5000/api/projects/${project._id}/download`}
+                  href={`http://localhost:5000/api/projects/${project._id}/document`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <button className="action-button download-button">
-                    Download Document
-                  </button>
+                  <button className="action-button download-button">Download Document</button>
                 </a>
-
                 <button
                   className="action-button approve-button"
                   onClick={() => handleApprove(project._id)}
                 >
                   Approve
                 </button>
-
                 <button
                   className="action-button reject-button"
                   onClick={() => handleReject(project._id)}

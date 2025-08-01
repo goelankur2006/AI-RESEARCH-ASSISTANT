@@ -45,12 +45,14 @@ export const rejectProject = async (req, res) => {
 // GET: Fetch pending only
 export const getPendingProjects = async (req, res) => {
   try {
-    const pending = await Project.find({ status: 'pending' });
-    res.status(200).json(pending);
+    const pendingProjects = await Project.find({ status: 'pending' });
+    res.json(pendingProjects);
   } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch pending projects' });
+    console.error('Error fetching pending projects:', err);
+    res.status(500).json({ message: 'Server error' });
   }
 };
+
 
 export const downloadProjectDocument = async (req, res) => {
   try {

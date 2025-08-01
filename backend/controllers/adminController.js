@@ -1,6 +1,5 @@
 import Project from '../models/Project.js';
 import bcrypt from 'bcrypt';
-import Teacher from '../models/Teacher.js';
 import User from '../models/User.js';
 // GET all pending projects
 export const getAllPendingProjects = async (req, res) => {
