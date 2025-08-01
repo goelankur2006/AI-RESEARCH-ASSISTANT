@@ -11,6 +11,7 @@ import Navbar from './components/Navbar/Navbar';
 import './App.css';
 import NewRequests from './pages/NewRequests/NewRequests';
 import { Navigate } from 'react-router-dom';
+import Home from './pages/Home/Home';
 
 
 const App = () => {
@@ -21,7 +22,8 @@ const App = () => {
         <Sidebar />
         <div className="main-content">
           <Routes>
-            <Route path="/" element={<Navigate to="/teacher/add-project" />} />
+            <Route path="/" element={<Navigate to="/teacher/home" />} />
+            <Route path='/teacher/home' element={<Home/>} />
             <Route path="/teacher/add-project" element={<AddProject />} />
             <Route path='/teacher/new-requests' element={<NewRequests />} />
             <Route path="/teacher/my-researches" element={<MyResearches />} />
