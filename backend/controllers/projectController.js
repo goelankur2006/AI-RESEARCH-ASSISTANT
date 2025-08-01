@@ -63,16 +63,21 @@ export const downloadProjectDocument = async (req, res) => {
     }
 
     res.set({
-      'Content-Type': 'application/octet-stream',
-      'Content-Disposition': `attachment; filename="${project.title || 'document'}"`,
+      'Content-Type': 'application/pdf', // ✅ Explicitly PDF
+      'Content-Disposition': `inline; filename="${project.title || 'document'}.pdf"`,
     });
 
-    res.send(project.document);
+    const buffer = Buffer.isBuffer(project.document)
+      ? project.document
+      : Buffer.from(project.document);
+
+    res.send(buffer);
   } catch (err) {
     console.error('Error downloading file:', err);
     res.status(500).json({ error: 'Failed to download file' });
   }
 };
+
 
 export const getProjectsByTeacherId = async (req, res) => {
   try {
