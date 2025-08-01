@@ -11,8 +11,18 @@ const RejectedProjects = () => {
     const fetchRejectedProjects = async () => {
       try {
         const res = await axios.get('http://localhost:5000/api/projects/teacher/' + teacherId);
-        const rejected = res.data.filter(project => project.status === 'rejected');
-        setProjects(rejected);
+        const rejectedProjects = res.data.filter(p => p.status === 'rejected');
+
+
+        // const rejected = rejectedProjects.map((project) => ({
+        //   _id: project._id,
+        //   title: project.title,
+        //   description: project.description,
+        //   status: project.status,
+        //   feedback: project.feedback,
+        // }));
+
+        setProjects(rejectedProjects);
       } catch (err) {
         console.error('Error fetching rejected projects:', err);
       } finally {

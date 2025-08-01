@@ -22,7 +22,8 @@ export const addProject = async (req, res) => {
       objectives,
       technologies,
       budget,
-      guide
+      guide,
+      teacherId
     } = req.body;
 
     const document = req.file ? req.file.buffer : null;
@@ -32,12 +33,13 @@ export const addProject = async (req, res) => {
       domain,
       description,
       startDate,
-      endDate,
+      endDate,    
       objectives,
       technologies,
       budget,
       guide,
       document,
+      submittedBy: teacherId,
       status: 'pending'
     }); 
 
@@ -80,7 +82,7 @@ export const loginTeacher = async (req, res) => {
 
     const token = jwt.sign({ id: teacher._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
 
-    res.json({ token, name: teacher.name });
+    res.json({ token, name: teacher.name, teacherId: teacher._id });
   } catch (err) {
     console.error("❌ Login error:", err);
     res.status(500).json({ error: 'Login failed', detail: err.message });

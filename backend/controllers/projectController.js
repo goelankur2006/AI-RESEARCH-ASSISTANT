@@ -74,13 +74,13 @@ export const downloadProjectDocument = async (req, res) => {
 
 export const getProjectsByTeacherId = async (req, res) => {
   try {
-    const { teacherId } = req.params;
-    const projects = await Project.find({ submittedBy: teacherId });
+    const projects = await Project.find({ submittedBy: req.params.teacherId });
     res.status(200).json(projects);
-  } catch (error) {
-    res.status(500).json({ message: "Failed to fetch teacher's projects" });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch teacher projects' });
   }
 };
+
 
 
 
