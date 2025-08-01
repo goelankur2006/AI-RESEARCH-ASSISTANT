@@ -8,15 +8,17 @@ const Navbar = ({ teacherName: propTeacherName }) => {
   const [showLoginPopup, setShowLoginPopup] = useState(false);
 
   useEffect(() => {
+    // Check if there's a valid token in localStorage
     const token = localStorage.getItem('token');
     const storedName = localStorage.getItem('teacherName');
 
-    if (token) {
+    if (token && storedName) {
       setIsLoggedIn(true);
       setTeacherName(storedName || propTeacherName || 'Teacher');
     } else {
+      // If no token or name → force login popup
       setIsLoggedIn(false);
-      setShowLoginPopup(true); // Show popup if not logged in
+      setShowLoginPopup(true);
     }
   }, [propTeacherName]);
 
@@ -24,7 +26,7 @@ const Navbar = ({ teacherName: propTeacherName }) => {
     localStorage.removeItem('token');
     localStorage.removeItem('teacherName');
     setIsLoggedIn(false);
-    setShowLoginPopup(true); // Show login popup again
+    setShowLoginPopup(true); // Force login again
   };
 
   const handleLoginSuccess = () => {
@@ -52,9 +54,7 @@ const Navbar = ({ teacherName: propTeacherName }) => {
         </div>
       </div>
 
-      {showLoginPopup && (
-        <LoginPopup onClose={handleLoginSuccess} />
-      )}
+      {showLoginPopup && <LoginPopup onClose={handleLoginSuccess} />}
     </>
   );
 };
