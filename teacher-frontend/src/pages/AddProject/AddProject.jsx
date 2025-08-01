@@ -10,6 +10,7 @@ const AddProject = () => {
     startDate: '',
     endDate: '',
     objectives: '',
+    employeeId: '',
     technologies: '',
     budget: '',
     guide: '',

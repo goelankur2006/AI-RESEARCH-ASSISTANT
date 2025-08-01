@@ -11,6 +11,7 @@ const projectSchema = new mongoose.Schema({
   technologies: String,
   budget: String,
   guide: String,
+  feedback: String,
   document: Buffer, // optionally use { type: Buffer, contentType: String } for file uploads
   status: {
     type: String,
