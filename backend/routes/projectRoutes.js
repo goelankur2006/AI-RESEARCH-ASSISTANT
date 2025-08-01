@@ -3,20 +3,18 @@ import {
   getAllProjects,
   approveProject,
   rejectProject,
-  downloadProjectDocument,
   getPendingProjects,
-  getProjectsByTeacherId
+  downloadProjectDocument
 } from '../controllers/projectController.js';
 
 const router = express.Router();
 
-router.get('/', getAllProjects);
-router.put('/:id/approve', approveProject);
-router.put('/:id/reject', rejectProject);
-router.get('/:id/document', downloadProjectDocument);
-router.get('/pending', getPendingProjects);
-router.get('/teacher/:teacherId', getProjectsByTeacherId);
 
+router.get('/projects', getAllProjects);
+router.get('/projects/pending', getPendingProjects);
+router.put('/projects/:id/approve', approveProject);
+router.put('/projects/:id/reject', rejectProject);
+router.get('/projects/:id/download', downloadProjectDocument); 
 
 
 export default router;
