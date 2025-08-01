@@ -7,22 +7,29 @@ const ApproveProjects = () => {
   const [error, setError] = useState(null);
 
   // Fetch pending projects from API
-  const fetchProjects = async () => {
-    try {
-      setLoading(true);
-      const res = await fetch('http://localhost:5000/api/projects/pending');
+const fetchProjects = async () => {
+  try {
+    const res = await axios.get('/api/projects'); // Vite proxy handles localhost
+    const grouped = {
+      running: [],
+      completed: [],
+      rejected: []
+    };
 
-      if (!res.ok) throw new Error("Failed to fetch projects");
+    res.data.forEach(project => {
+      if (project.status === 'approved') grouped.completed.push(project);
+      else if (project.status === 'rejected') grouped.rejected.push(project);
+      else grouped.running.push(project);
+    });
 
-      const data = await res.json();
-      setProjects(data);
-    } catch (err) {
-      console.error("❌ Fetch error:", err);
-      setError("Failed to load projects. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
+    setProjects(grouped);
+    setLoading(false);
+  } catch (err) {
+    console.error('Error fetching projects:', err);
+    setLoading(false);
+  }
+};
+
 
   useEffect(() => {
     fetchProjects();

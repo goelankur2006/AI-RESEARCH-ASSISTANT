@@ -17,27 +17,28 @@ const ManageProjects = () => {
 
   const fetchProjects = async () => {
     try {
-      const res = await axios.get('/api/projects'); // Vite proxy handles localhost
+      const res = await axios.get('/api/projects');
       const grouped = {
         pending: [],
         completed: [],
-        rejected: []
+        rejected: [],
       };
 
       res.data.forEach(project => {
         if (project.status === 'approved') grouped.completed.push(project);
         else if (project.status === 'rejected') grouped.rejected.push(project);
-        else grouped.running.push(project);
+        else grouped.pending.push(project); // ⬅️ Pending is correct here
       });
 
-      setProjects({ pending: res.data, completed: [], rejected: [] });
+      setProjects(grouped);
       setLoading(false);
     } catch (err) {
       console.error('Error fetching projects:', err);
       setLoading(false);
     }
   };
-   const handleAction = async (id, status) => {
+
+  const handleAction = async (id, status) => {
     let feedback = '';
     if (status === 'rejected') {
       feedback = prompt('Enter reason for rejection:');
@@ -50,7 +51,6 @@ const ManageProjects = () => {
       console.error(`Error updating project status to ${status}:`, err);
     }
   };
-  
 
   const renderProjectList = (list) => {
     if (list.length === 0) return <p className="empty-msg">No projects in this category.</p>;
@@ -66,8 +66,8 @@ const ManageProjects = () => {
 
             {proj.status === 'pending' && (
               <div className="button-group">
-                <button onClick={() => handleAction(proj._id,"approved")}className="approve-btn">Approve</button>
-                <button onClick={() => handleAction(proj._id,"rejected")} className="reject-btn">Reject</button>
+                <button onClick={() => handleAction(proj._id, 'approved')} className="approve-btn">Approve</button>
+                <button onClick={() => handleAction(proj._id, 'rejected')} className="reject-btn">Reject</button>
               </div>
             )}
           </div>
@@ -83,8 +83,8 @@ const ManageProjects = () => {
       <h2>Manage Projects</h2>
 
       <div className="tabs">
-        <button className={activeTab === 'running' ? 'active' : ''} onClick={() => setActiveTab('running')}>Running</button>
-        <button className={activeTab === 'completed' ? 'active' : ''} onClick={() => setActiveTab('completed')}>Completed</button>
+        <button className={activeTab === 'pending' ? 'active' : ''} onClick={() => setActiveTab('pending')}>Pending</button>
+        <button className={activeTab === 'completed' ? 'active' : ''} onClick={() => setActiveTab('completed')}>Approved</button>
         <button className={activeTab === 'rejected' ? 'active' : ''} onClick={() => setActiveTab('rejected')}>Rejected</button>
       </div>
 
