@@ -4,7 +4,7 @@ import './ManageUser.css';
 
 const ManageUser = () => {
   const [name, setName] = useState('');
-  const [eid, setEId] = useState('');
+  const [course, setCourse] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [msg, setMsg] = useState('');
@@ -14,13 +14,13 @@ const ManageUser = () => {
     try {
       const res = await axios.post('http://localhost:5000/api/admin/teachers/add', {
         name,
-        eid,
+        course,
         email,
         password,
       });
       setMsg(res.data.message);
       setName('');
-      setEId('');
+      setCourse('');
       setEmail('');
       setPassword('');
     } catch (err) {
@@ -40,11 +40,11 @@ const ManageUser = () => {
           required
         />
 
-        <label>Employee ID:</label>
+        <label>Course:</label>
         <input
-          type='number'
-          value={eid}
-          onChange={(e) => setEId(e.target.value)}
+          type="text"
+          value={course}
+          onChange={(e) => setCourse(e.target.value)}
           required
         />
 

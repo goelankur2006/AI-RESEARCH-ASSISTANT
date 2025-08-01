@@ -81,27 +81,13 @@ export const downloadProjectDocument = async (req, res) => {
 
 export const getProjectsByTeacherId = async (req, res) => {
   try {
-    const teacherId = req.params.teacherId;
-    const projects = await Project.find({ submittedBy: teacherId }).populate('submittedBy');
-
-    const grouped = {
-      approved: [],
-      rejected: [],
-      pending: []
-    };
-
-    projects.forEach(p => {
-      if (p.status === 'approved') grouped.approved.push(p);
-      else if (p.status === 'rejected') grouped.rejected.push(p);
-      else grouped.pending.push(p);
-    });
-
-    res.status(200).json(grouped);
+    const projects = await Project.find({ submittedBy: req.params.teacherId });
+    res.status(200).json(projects);
   } catch (err) {
-    console.error("Error fetching teacher projects:", err);
     res.status(500).json({ error: 'Failed to fetch teacher projects' });
   }
 };
+
 
 
 
