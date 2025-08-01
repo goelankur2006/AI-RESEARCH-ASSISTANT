@@ -27,7 +27,7 @@ const ManageProjects = () => {
       res.data.forEach(project => {
         if (project.status === 'approved') grouped.completed.push(project);
         else if (project.status === 'rejected') grouped.rejected.push(project);
-        else grouped.pending.push(project); 
+        else grouped.pending.push(project); // ⬅️ Pending is correct here
       });
 
       setProjects(grouped);
@@ -63,6 +63,13 @@ const ManageProjects = () => {
             <p><strong>Submitted by:</strong> {proj.teacherName || 'Unknown'}</p>
             <p><strong>Status:</strong> {proj.status}</p>
             <p>{proj.description}</p>
+
+            {proj.status === 'pending' && (
+              <div className="button-group">
+                <button onClick={() => handleAction(proj._id, 'approved')} className="approve-btn">Approve</button>
+                <button onClick={() => handleAction(proj._id, 'rejected')} className="reject-btn">Reject</button>
+              </div>
+            )}
           </div>
         ))}
       </div>
