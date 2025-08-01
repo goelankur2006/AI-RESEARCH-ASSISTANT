@@ -15,7 +15,7 @@ const handleLogin = async (e) => {
       password
     });
 
-    console.log("🧠 Login response data:", res.data); // 👈 Add this
+    console.log("🧠 Login response data:", res.data);
 
     const { teacherId, token } = res.data;
 
@@ -23,7 +23,7 @@ const handleLogin = async (e) => {
       localStorage.setItem('teacherId', teacherId);
       localStorage.setItem('token', token);
       alert("Login successful");
-      window.location.reload(); // force reload to propagate auth state
+      window.location.reload();
     } else {
       alert("❌ teacherId missing in response");
     }
@@ -65,7 +65,7 @@ const handleLogin = async (e) => {
               required
             />
           </div>
-          <button type='submit'>Login</button>
+          <button type='submit' className='btn btn-primary'>Login</button>
         </form>
       </div>
     </div>
