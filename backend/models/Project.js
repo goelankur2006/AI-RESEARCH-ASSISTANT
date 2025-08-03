@@ -1,5 +1,4 @@
-// models/Project.js
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const projectSchema = new mongoose.Schema({
   title: { type: String, required: true },
@@ -15,13 +14,14 @@ const projectSchema = new mongoose.Schema({
     data: Buffer,
     contentType: String,
     originalName: String,
-},
+  },
   status: {
     type: String,
     enum: ['pending', 'approved', 'rejected', 'running', 'completed'],
     default: 'pending'
   },
-  submittedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'Teacher' }
+  submittedBy: { type: String },  // employeeId instead of ObjectId
+  feedback: String                // Add feedback field if needed
 }, { timestamps: true });
 
 const Project = mongoose.model('Project', projectSchema);

@@ -1,7 +1,6 @@
-// src/pages/ApprovedProjects/ApprovedProjects.jsx
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import ProjectCard from '../../components/ProjectCard/ProjectCard';
 import './ApprovedProjects.css';
 
 const ApprovedProjects = () => {
@@ -17,10 +16,7 @@ const ApprovedProjects = () => {
           return;
         }
 
-        const response = await axios.get(`http://localhost:5000/api/teacher/my-projects/${teacherId}`);
-        console.log('All projects fetched:', response.data);
-
-        // Filter approved projects
+        const response = await axios.get(`http://localhost:5000/api/projects/teacher/${teacherId}`);
         const approved = response.data.filter(project => project.status === 'approved');
         setApprovedProjects(approved);
       } catch (error) {
@@ -38,16 +34,11 @@ const ApprovedProjects = () => {
   return (
     <div className="approved-projects-container">
       <h2>Approved Projects</h2>
-
       {approvedProjects.length === 0 ? (
         <p>No approved projects found.</p>
       ) : (
         approvedProjects.map((project) => (
-          <div key={project._id} className="project-card">
-            <h3>{project.title}</h3>
-            <p>{project.description}</p>
-            <p>Status: {project.status}</p>
-          </div>
+          <ProjectCard key={project._id} project={project} />
         ))
       )}
     </div>

@@ -4,12 +4,18 @@ import mime from 'mime-types'; // npm install mime-types
 // GET: All projects (admin)
 export const getAllProjects = async (req, res) => {
   try {
-    const projects = await Project.find().populate('submittedBy', 'name employeeId');
+    const projects = await Project.find().populate({
+      path: 'submittedBy',
+      select: 'name employeeId',
+      strictPopulate: false
+    });
+
     res.status(200).json(projects);
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch projects' });
   }
 };
+
 
 // PUT: Approve a project
 export const approveProject = async (req, res) => {
@@ -42,7 +48,7 @@ export const rejectProject = async (req, res) => {
   }
 };
 
-// GET: Pending projects only
+
 export const getPendingProjects = async (req, res) => {
   try {
     const pendingProjects = await Project.find({ status: 'pending' });
@@ -57,27 +63,28 @@ export const getPendingProjects = async (req, res) => {
 export const viewProjectDocument = async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
+
     if (!project || !project.document || !project.document.data) {
       return res.status(404).send("Document not found");
     }
 
-    const mimeType = project.document.contentType || 'application/pdf';
-    const originalName = project.document.originalName || 'document.pdf';
-
     res.set({
-      'Content-Type': mimeType,
-      'Content-Disposition': `inline; filename="${originalName}"`,
+      'Content-Type': project.document.contentType || 'application/octet-stream',
+      'Content-Disposition': `inline; filename="${project.document.originalName || 'document'}"`,
     });
 
     res.send(project.document.data);
   } catch (err) {
-    console.error("❌ Document view error:", err);
+    console.error("❌ Document display error:", err);
     res.status(500).send("Error displaying document");
   }
 };
 
+
+
 // GET: All projects submitted by a teacher
 export const getProjectsByTeacherId = async (req, res) => {
+  const projects = await Project.find({ submittedBy: req.params.teacherId });
   try {
     const projects = await Project.find({ submittedBy: req.params.teacherId });
     res.status(200).json(projects);

@@ -1,7 +1,7 @@
-// RejectedProjects.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './RejectedProjects.css'; // Optional if you have styles
+import ProjectCard from '../../components/ProjectCard/ProjectCard';
+import './RejectedProjects.css';
 
 const RejectedProjects = () => {
   const [projects, setProjects] = useState([]);
@@ -35,24 +35,12 @@ const RejectedProjects = () => {
   return (
     <div className="rejected-projects-container">
       <h2>Rejected Projects</h2>
-
       {projects.length === 0 ? (
         <p>No rejected projects found.</p>
       ) : (
-        <div className="project-list">
-          {projects.map((project) => (
-            <div className="project-card" key={project._id}>
-              <h3>{project.title}</h3>
-              <p>{project.description}</p>
-              <p><strong>Status:</strong> {project.status}</p>
-              {project.feedback && (
-                <p className="feedback">
-                  <strong>Admin Feedback:</strong> {project.feedback}
-                </p>
-              )}
-            </div>
-          ))}
-        </div>
+        projects.map((project) => (
+          <ProjectCard key={project._id} project={project} />
+        ))
       )}
     </div>
   );
