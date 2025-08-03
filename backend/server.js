@@ -14,11 +14,10 @@ app.use(express.json());
 dotenv.config();
 
 
-mongoose      
-  .connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/researchDB', {
+mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/researchDB', {
     useNewUrlParser: true,
     useUnifiedTopology: true
-  })
+})
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB connection error:", err));
 

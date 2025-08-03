@@ -20,8 +20,8 @@ const projectSchema = new mongoose.Schema({
     enum: ['pending', 'approved', 'rejected', 'running', 'completed'],
     default: 'pending'
   },
-  submittedBy: { type: String },  // employeeId instead of ObjectId
-  feedback: String                // Add feedback field if needed
+  submittedBy: { type: String },
+  feedback: String 
 }, { timestamps: true });
 
 const Project = mongoose.model('Project', projectSchema);

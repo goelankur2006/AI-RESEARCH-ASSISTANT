@@ -2,7 +2,6 @@ import Project from '../models/Project.js';
 import bcrypt from 'bcrypt';
 import User from '../models/User.js';
 
-// GET all pending projects
 export const getAllPendingProjects = async (req, res) => {
   try {
     const projects = await Project.find({ status: 'pending' });
@@ -13,10 +12,9 @@ export const getAllPendingProjects = async (req, res) => {
   }
 };
 
-// PUT update status (approve/reject)
 export const updateProjectStatus = async (req, res) => {
   const { projectId } = req.params;
-  const { status } = req.body; // approved or rejected
+  const { status } = req.body;
 
   try {
     const updatedProject = await Project.findByIdAndUpdate(
@@ -36,7 +34,6 @@ export const addUser = async (req, res) => {
   try {
     const { email, password, role, name } = req.body;
 
-    // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
@@ -44,7 +41,6 @@ export const addUser = async (req, res) => {
   
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Save user
     const user = new User({ 
       name,
       email, 

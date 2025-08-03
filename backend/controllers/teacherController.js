@@ -1,12 +1,8 @@
-// ProjectController.js
 import Project from '../models/Project.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
-import mongoose from 'mongoose';
-/**
- * POST /api/teacher/add-project
- */
+
 export const addProject = async (req, res) => {
   try {
     const {
@@ -22,7 +18,7 @@ export const addProject = async (req, res) => {
       teacherId
     } = req.body;
 
-    console.log('📥 Submitted by teacherId:', teacherId);
+    console.log('Submitted by teacherId:', teacherId);
 
     if (!teacherId) {
       return res.status(400).json({ error: 'Missing teacherId in request' });
@@ -42,7 +38,6 @@ export const addProject = async (req, res) => {
       status: 'pending'
     });
 
-    // Handle file upload
     if (req.file) {
       newProject.document = {
         data: req.file.buffer,
@@ -54,15 +49,11 @@ export const addProject = async (req, res) => {
     await newProject.save();
     res.status(201).json(newProject);
   } catch (error) {
-    console.error('❌ Error in addProject controller:', error);
+    console.error('Error in addProject controller:', error);
     res.status(500).json({ error: 'Server error in adding project', detail: error.message });
   }
 };
 
-
-/**
- * GET /api/teacher/my-projects/:teacherId
- */
 export const getMyProjects = async (req, res) => {
   const { teacherId } = req.params;
   try {
@@ -73,9 +64,6 @@ export const getMyProjects = async (req, res) => {
   }
 };
 
-/**
- * POST /api/teacher/login
- */
 export const loginTeacher = async (req, res) => {
   const { email, password } = req.body;
 

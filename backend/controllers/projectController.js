@@ -1,7 +1,5 @@
 import Project from '../models/Project.js';
-import mime from 'mime-types'; // npm install mime-types
 
-// GET: All projects (admin)
 export const getAllProjects = async (req, res) => {
   try {
     const projects = await Project.find().populate({
@@ -16,8 +14,6 @@ export const getAllProjects = async (req, res) => {
   }
 };
 
-
-// PUT: Approve a project
 export const approveProject = async (req, res) => {
   try {
     const project = await Project.findByIdAndUpdate(
@@ -31,7 +27,6 @@ export const approveProject = async (req, res) => {
   }
 };
 
-// PUT: Reject a project with feedback
 export const rejectProject = async (req, res) => {
   try {
     const { feedback } = req.body;
@@ -59,7 +54,6 @@ export const getPendingProjects = async (req, res) => {
   }
 };
 
-// GET: View document inline (PDF view)
 export const viewProjectDocument = async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
@@ -75,14 +69,11 @@ export const viewProjectDocument = async (req, res) => {
 
     res.send(project.document.data);
   } catch (err) {
-    console.error("❌ Document display error:", err);
+    console.error("Document display error:", err);
     res.status(500).send("Error displaying document");
   }
 };
 
-
-
-// GET: All projects submitted by a teacher
 export const getProjectsByTeacherId = async (req, res) => {
   const projects = await Project.find({ submittedBy: req.params.teacherId });
   try {

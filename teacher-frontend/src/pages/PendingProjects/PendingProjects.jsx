@@ -21,7 +21,7 @@ const PendingProjects = () => {
   }, []);
 
   return (
-    <div>
+    <div className="pending-projects-container">
       <h2>Pending Projects</h2>
       {projects.length === 0 ? (
         <p>No pending projects found.</p>
