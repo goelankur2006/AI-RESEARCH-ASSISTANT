@@ -2,46 +2,43 @@ import React, { useState } from 'react';
 import './LoginPopup.css';
 import { assets } from '../../assets/assets.jsx';
 import axios from 'axios';
+import { Navigate } from 'react-router-dom';
 
 const LoginPopup = ({ onClose }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-const handleLogin = async (e) => {
-  e.preventDefault();
-  try {
-    const res = await axios.post('http://localhost:5000/api/teacher/login', {
-      email,
-      password
-    });
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:5000/api/teacher/login', {
+        email,
+        password,
+      });
 
-    console.log("🧠 Login response data:", res.data); // 👈 Add this
+      console.log('Login response:', response.data);
 
-    const { teacherId, token } = res.data;
+      // Save teacherId in localStorage
+      localStorage.setItem('teacherId', response.data.teacher._id);
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('teacherName', response.data.teacher.name);
 
-    if (teacherId) {
-      localStorage.setItem('teacherId', teacherId);
-      localStorage.setItem('token', token);
-      alert("Login successful");
-      window.location.reload(); // force reload to propagate auth state
-    } else {
-      alert("❌ teacherId missing in response");
+      // Navigate to teacher panel
+      Navigate('/teacher/dashboard');
+    } catch (error) {
+      console.error('Error logging in:', error);
+      alert('Login failed. Please check credentials.');
     }
-  } catch (err) {
-    console.error("Login error:", err);
-    alert("Login failed");
-  }
-};
-
-
+  };
 
   return (
-    <div className='login-popup'>
+    <div className="login-popup">
       <div className="login-popup-content">
         <div className="login-popup-title">
           <h2>Teacher Login</h2>
           <img onClick={onClose} src={assets.cross_icon} alt="close" />
         </div>
+
         <form
           className="login-popup-container"
           onSubmit={(e) => {
@@ -51,21 +48,21 @@ const handleLogin = async (e) => {
         >
           <div className="login-popup-inputs">
             <input
-              type='email'
-              placeholder='Your email'
+              type="email"
+              placeholder="Your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
             <input
-              type='password'
-              placeholder='Password'
+              type="password"
+              placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
-          <button type='submit'>Login</button>
+          <button type="submit">Login</button>
         </form>
       </div>
     </div>

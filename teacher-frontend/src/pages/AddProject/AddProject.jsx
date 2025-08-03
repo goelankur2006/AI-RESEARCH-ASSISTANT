@@ -31,6 +31,14 @@ const AddProject = () => {
       for (let key in formData) {
         projectData.append(key, formData[key]);
       }
+
+      // ✅ Add teacherId from localStorage
+      const teacherId = localStorage.getItem('teacherId');
+      if (!teacherId) {
+        alert("Teacher ID not found. Please log in again.");
+        return;
+      }
+      projectData.append("teacherId", teacherId);
       projectData.append("status", "pending");
 
       await axios.post('http://localhost:5000/api/teacher/add-project', projectData, {
@@ -39,10 +47,10 @@ const AddProject = () => {
         }
       });
 
-      alert('Project submitted successfully!');
+      alert('✅ Project submitted successfully for admin approval!');
     } catch (error) {
-      alert('Error submitting project.');
-      console.error(error);
+      alert('❌ Error submitting project.');
+      console.error("Submit error:", error);
     }
   };
 
