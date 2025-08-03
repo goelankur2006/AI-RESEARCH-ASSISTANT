@@ -60,3 +60,28 @@ export const addUser = async (req, res) => {
     res.status(500).json({ message: "Failed to add user" });
   }
 };
+
+export const getAdminDashboardData = async (req, res) => {
+  try {
+    const students = await User.countDocuments({ role: 'student' });
+    const teachers = await User.countDocuments({ role: 'teacher' });
+    const reviewers = await User.countDocuments({ role: 'reviewer' });
+    const totalProjects = await Project.countDocuments();
+
+    const recentContributions = await Project.find()
+      .sort({ createdAt: -1 })
+      .limit(5)
+      .select('title _id');
+
+    res.json({
+      students,
+      teachers,
+      reviewers,
+      totalProjects,
+      recentContributions
+    });
+  } catch (error) {
+    console.error('Dashboard fetch error:', error);
+    res.status(500).json({ message: 'Error fetching dashboard data' });
+  }
+};

@@ -11,7 +11,11 @@ const projectSchema = new mongoose.Schema({
   technologies: String,
   budget: String,
   guide: String,
-  document: Buffer,
+  document: {
+    data: Buffer,
+    contentType: String,
+    originalName: String,
+},
   status: {
     type: String,
     enum: ['pending', 'approved', 'rejected', 'running', 'completed'],
@@ -20,4 +24,6 @@ const projectSchema = new mongoose.Schema({
   submittedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 }, { timestamps: true });
 
-export default mongoose.model('Project', projectSchema);
+const Project = mongoose.model('Project', projectSchema);
+
+export default Project;

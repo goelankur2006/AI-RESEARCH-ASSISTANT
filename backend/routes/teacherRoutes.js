@@ -1,5 +1,5 @@
 import express from 'express';
-import { addProject, loginTeacher } from '../controllers/teacherController.js';
+import { addProject, loginTeacher, getMyProjects } from '../controllers/teacherController.js';
 import multer from 'multer';
 
 

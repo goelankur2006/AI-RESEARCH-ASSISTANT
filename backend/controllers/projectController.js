@@ -1,4 +1,5 @@
 import Project from '../models/Project.js';
+import mime from 'mime-types'; // Make sure to install this: npm install mime-types
 
 // GET: Fetch all projects
 export const getAllProjects = async (req, res) => {
@@ -53,30 +54,28 @@ export const getPendingProjects = async (req, res) => {
   }
 };
 
-
 export const downloadProjectDocument = async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
-
     if (!project || !project.document) {
-      return res.status(404).json({ error: 'Document not found' });
+      return res.status(404).send('Document not found');
     }
 
-    res.set({
-      'Content-Type': 'application/pdf', // ✅ Explicitly PDF
-      'Content-Disposition': `inline; filename="${project.title || 'document'}.pdf"`,
-    });
+    const fileBuffer = project.document.data;
+    const originalName = project.document.originalName || 'file';
+    const mimeType = mime.lookup(originalName) || 'application/octet-stream';
 
-    const buffer = Buffer.isBuffer(project.document)
-      ? project.document
-      : Buffer.from(project.document);
+    res.setHeader('Content-Type', mimeType);
+    res.setHeader('Content-Disposition', `attachment; filename="${originalName}"`);
+    res.setHeader('x-filename', originalName);
 
-    res.send(buffer);
-  } catch (err) {
-    console.error('Error downloading file:', err);
-    res.status(500).json({ error: 'Failed to download file' });
+    res.send(fileBuffer);
+  } catch (error) {
+    console.error("Error downloading document:", error);
+    res.status(500).send('Server error');
   }
 };
+
 
 
 export const getProjectsByTeacherId = async (req, res) => {
