@@ -1,4 +1,5 @@
 import Project from '../models/Project.js';
+import mime from 'mime-types'; // Make sure to install this: npm install mime-types
 
 // GET: Fetch all projects
 export const getAllProjects = async (req, res) => {
@@ -53,6 +54,7 @@ export const getPendingProjects = async (req, res) => {
   }
 };
 
+<<<<<<< HEAD
 
 export const viewProjectDocument = async (req, res) => {
   try {
@@ -70,12 +72,36 @@ export const viewProjectDocument = async (req, res) => {
   } catch (err) {
     console.error("❌ Document display error:", err);
     res.status(500).send("Error displaying document");
+=======
+export const downloadProjectDocument = async (req, res) => {
+  try {
+    const project = await Project.findById(req.params.id);
+    if (!project || !project.document) {
+      return res.status(404).send('Document not found');
+    }
+
+    const fileBuffer = project.document.data;
+    const originalName = project.document.originalName || 'file';
+    const mimeType = mime.lookup(originalName) || 'application/octet-stream';
+
+    res.setHeader('Content-Type', mimeType);
+    res.setHeader('Content-Disposition', `attachment; filename="${originalName}"`);
+    res.setHeader('x-filename', originalName);
+
+    res.send(fileBuffer);
+  } catch (error) {
+    console.error("Error downloading document:", error);
+    res.status(500).send('Server error');
+>>>>>>> 7930d21ce7eed22aad3c64023d9190ac231890dd
   }
 };
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7930d21ce7eed22aad3c64023d9190ac231890dd
 export const getProjectsByTeacherId = async (req, res) => {
   try {
     const projects = await Project.find({ submittedBy: req.params.teacherId });

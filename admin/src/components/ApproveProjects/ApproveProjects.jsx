@@ -1,3 +1,4 @@
+// ApproveProjects.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './ApproveProjects.css';
@@ -11,10 +12,10 @@ const ApproveProjects = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch projects from API
+  // ✅ Fetch projects from API
   const fetchProjects = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/projects'); // Vite proxy or full URL
+      const res = await axios.get('http://localhost:5000/api/projects');
       const groupedData = {
         pending: [],
         approved: [],
@@ -40,25 +41,24 @@ const ApproveProjects = () => {
     fetchProjects();
   }, []);
 
-  // Approve a project
   const handleApprove = async (projectId) => {
     try {
       const res = await fetch(`http://localhost:5000/api/projects/${projectId}/approve`, {
         method: 'PUT',
       });
 
-      if (!res.ok) throw new Error("Approval failed");
+      if (!res.ok) throw new Error('Approval failed');
+
       alert('✅ Project approved!');
-      fetchProjects(); // Refresh the list
+      fetchProjects(); // Refresh
     } catch (err) {
-      console.error("❌ Approve error:", err);
+      console.error('❌ Approve error:', err);
       alert(`Error: ${err.message}`);
     }
   };
 
-  // Reject a project with feedback
   const handleReject = async (projectId) => {
-    const feedback = prompt("Enter rejection reason:");
+    const feedback = prompt('Enter rejection reason:');
     if (!feedback) return;
 
     try {
@@ -70,27 +70,30 @@ const ApproveProjects = () => {
         body: JSON.stringify({ feedback }),
       });
 
-      if (!res.ok) throw new Error("Rejection failed");
+      if (!res.ok) throw new Error('Rejection failed');
+
       alert('❌ Project rejected!');
-      fetchProjects(); // Refresh the list
+      fetchProjects(); // Refresh
     } catch (err) {
-      console.error("❌ Reject error:", err);
+      console.error('❌ Reject error:', err);
       alert(`Error: ${err.message}`);
     }
   };
 
-  // Loading or error states
   if (loading) return <p>Loading pending projects...</p>;
-  if (error) return (
-    <div>
-      <p>{error}</p>
-      <button onClick={fetchProjects}>Retry</button>
-    </div>
-  );
+
+  if (error)
+    return (
+      <div>
+        <p>{error}</p>
+        <button onClick={fetchProjects}>Retry</button>
+      </div>
+    );
 
   return (
     <div className="approve-projects-content">
       <h2>Projects Awaiting Approval</h2>
+
       {grouped.pending.length === 0 ? (
         <p>No projects pending approval.</p>
       ) : (
@@ -103,20 +106,24 @@ const ApproveProjects = () => {
               </div>
 
               <div className="project-actions">
+                {/* ✅ View Document only (no download) */}
                 <a
                   href={`http://localhost:5000/api/projects/${project._id}/document`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <button className="action-button download-button">View Document</button>
+                  <button className="action-button download-button">View Project Document</button>
                 </a>
 
+                {/* Approve Button */}
                 <button
                   className="action-button approve-button"
                   onClick={() => handleApprove(project._id)}
                 >
                   Approve
                 </button>
+
+                {/* Reject Button */}
                 <button
                   className="action-button reject-button"
                   onClick={() => handleReject(project._id)}

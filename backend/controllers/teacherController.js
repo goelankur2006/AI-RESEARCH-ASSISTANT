@@ -28,6 +28,7 @@ export const addProject = async (req, res) => {
     }
 
     const newProject = new Project({
+<<<<<<< HEAD
       title,
       domain,
       description,
@@ -41,6 +42,26 @@ export const addProject = async (req, res) => {
       status: 'pending',
       submittedBy: teacherId
     });
+=======
+    title,
+    domain,
+    description,
+    startDate,
+    endDate,
+    objectives,
+    technologies,
+    budget,
+    guide,
+    submittedBy: teacherId,
+    status: 'pending',
+    document: {
+    data: req.file.buffer,
+    contentType: req.file.mimetype,
+    originalName: req.file.originalname, 
+  },
+  });
+
+>>>>>>> 7930d21ce7eed22aad3c64023d9190ac231890dd
 
     await newProject.save();
     res.status(201).json({ message: 'Project added successfully' });
