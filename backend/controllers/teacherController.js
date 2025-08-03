@@ -1,3 +1,4 @@
+// ProjectController.js
 import Project from '../models/Project.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -21,14 +22,13 @@ export const addProject = async (req, res) => {
       teacherId
     } = req.body;
 
-    const document = req.file ? req.file.buffer : null;
-
+    // Check teacherId present
     if (!teacherId) {
       return res.status(400).json({ message: 'Missing teacherId' });
     }
 
+    // Prepare project object
     const newProject = new Project({
-<<<<<<< HEAD
       title,
       domain,
       description,
@@ -38,30 +38,16 @@ export const addProject = async (req, res) => {
       technologies,
       budget,
       guide,
-      document,
+      submittedBy: teacherId,
       status: 'pending',
-      submittedBy: teacherId
+      document: req.file
+        ? {
+            data: req.file.buffer,
+            contentType: req.file.mimetype,
+            originalName: req.file.originalname
+          }
+        : undefined
     });
-=======
-    title,
-    domain,
-    description,
-    startDate,
-    endDate,
-    objectives,
-    technologies,
-    budget,
-    guide,
-    submittedBy: teacherId,
-    status: 'pending',
-    document: {
-    data: req.file.buffer,
-    contentType: req.file.mimetype,
-    originalName: req.file.originalname, 
-  },
-  });
-
->>>>>>> 7930d21ce7eed22aad3c64023d9190ac231890dd
 
     await newProject.save();
     res.status(201).json({ message: 'Project added successfully' });
@@ -72,7 +58,7 @@ export const addProject = async (req, res) => {
 };
 
 /**
- * GET /api/teacher/my-projects
+ * GET /api/teacher/my-projects/:teacherId
  */
 export const getMyProjects = async (req, res) => {
   const { teacherId } = req.params;
@@ -84,6 +70,9 @@ export const getMyProjects = async (req, res) => {
   }
 };
 
+/**
+ * POST /api/teacher/login
+ */
 export const loginTeacher = async (req, res) => {
   const { email, password } = req.body;
 
@@ -96,7 +85,11 @@ export const loginTeacher = async (req, res) => {
 
     const token = jwt.sign({ id: teacher._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
 
-    res.json({ token, name: teacher.name, teacherId: teacher._id });
+    res.json({
+      token,
+      name: teacher.name,
+      teacherId: teacher._id
+    });
 
   } catch (err) {
     res.status(500).json({ error: 'Login failed', detail: err.message });
