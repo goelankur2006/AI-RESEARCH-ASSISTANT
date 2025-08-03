@@ -10,14 +10,11 @@ import {
 
 const router = express.Router();
 
-// Admin routes
 router.get('/', getAllProjects);
 router.get('/pending', getPendingProjects);
 router.put('/:id/approve', approveProject);
 router.put('/:id/reject', rejectProject);
 router.get('/:id/document', viewProjectDocument);
-
-// Teacher-specific route
 router.get('/teacher/:teacherId', getProjectsByTeacherId);
 
 export default router;

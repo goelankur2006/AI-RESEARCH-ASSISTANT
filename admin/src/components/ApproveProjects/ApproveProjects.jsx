@@ -1,4 +1,3 @@
-// ApproveProjects.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './ApproveProjects.css';
@@ -12,7 +11,6 @@ const ApproveProjects = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // ✅ Fetch projects from API
   const fetchProjects = async () => {
     try {
       const res = await axios.get('http://localhost:5000/api/projects/pending');
@@ -49,10 +47,10 @@ const ApproveProjects = () => {
 
       if (!res.ok) throw new Error('Approval failed');
 
-      alert('✅ Project approved!');
-      fetchProjects(); // Refresh
+      alert('Project approved!');
+      fetchProjects();
     } catch (err) {
-      console.error('❌ Approve error:', err);
+      console.error('Approve error:', err);
       alert(`Error: ${err.message}`);
     }
   };
@@ -72,10 +70,10 @@ const ApproveProjects = () => {
 
       if (!res.ok) throw new Error('Rejection failed');
 
-      alert('❌ Project rejected!');
-      fetchProjects(); // Refresh
+      alert('Project rejected!');
+      fetchProjects();
     } catch (err) {
-      console.error('❌ Reject error:', err);
+      console.error('Reject error:', err);
       alert(`Error: ${err.message}`);
     }
   };
@@ -106,7 +104,6 @@ const ApproveProjects = () => {
               </div>
 
               <div className="project-actions">
-                {/* ✅ View Document only (no download) */}
                 <a
                   href={`http://localhost:5000/api/projects/${project._id}/document`}
                   target="_blank"
@@ -115,7 +112,6 @@ const ApproveProjects = () => {
                   <button className="action-button download-button">View Project Document</button>
                 </a>
 
-                {/* Approve Button */}
                 <button
                   className="action-button approve-button"
                   onClick={() => handleApprove(project._id)}
@@ -123,7 +119,6 @@ const ApproveProjects = () => {
                   Approve
                 </button>
 
-                {/* Reject Button */}
                 <button
                   className="action-button reject-button"
                   onClick={() => handleReject(project._id)}

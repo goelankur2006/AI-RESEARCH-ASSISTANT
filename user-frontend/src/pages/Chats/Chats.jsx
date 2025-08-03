@@ -9,7 +9,7 @@ const Chats = () => {
         <main className="flex-1 p-6">
           <h2 className="text-xl font-semibold mb-4">Chats</h2>
           <p className="text-gray-600">Here you will be able to chat with researchers, contributors, or admins.</p>
-          {/* Integrate chat system or messages UI here */}
+
         </main>
       </div>
     </div>

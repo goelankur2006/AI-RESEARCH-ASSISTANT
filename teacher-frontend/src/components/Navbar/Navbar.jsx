@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import LoginPopup from '../LoginPopup/LoginPopup'; // adjust path as needed
+import LoginPopup from '../LoginPopup/LoginPopup'; 
 import './Navbar.css';
 
 const Navbar = () => {
@@ -25,7 +25,7 @@ const Navbar = () => {
 
   const closeLogin = () => {
     setShowLoginPopup(false);
-    setIsLoggedIn(!!localStorage.getItem('teacherId')); // update login state
+    setIsLoggedIn(!!localStorage.getItem('teacherId'));
   };
 
   return (

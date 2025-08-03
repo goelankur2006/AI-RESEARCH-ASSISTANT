@@ -27,7 +27,7 @@ const ManageProjects = () => {
       res.data.forEach(project => {
         if (project.status === 'approved') grouped.completed.push(project);
         else if (project.status === 'rejected') grouped.rejected.push(project);
-        else grouped.pending.push(project); // ⬅️ Pending is correct here
+        else grouped.pending.push(project);
       });
 
       setProjects(grouped);

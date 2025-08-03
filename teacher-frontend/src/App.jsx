@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import  RejectedProjects  from './pages/RejectedProjects/RejectedProjects';
 import Sidebar from './components/TeacherSidebar/TeacherSidebar';
 import AddProject from './pages/AddProject/AddProject';
@@ -16,7 +16,7 @@ import ApprovedProjects from './pages/ApprovedProjects/ApprovedProjects';
 
 const App = () => {
   return (
-    <Router>
+    <>
       <div className="teacher-panel">
         <Navbar/>
         <Sidebar />
@@ -32,10 +32,9 @@ const App = () => {
             <Route path="/teacher/pending-projects" element={<PendingProjects />} />
             <Route path="/teacher/rejected-projects" element={<RejectedProjects/>} /> 
           </Routes>
-
         </div>
       </div>
-    </Router>
+    </>
   );
 };
 

@@ -10,7 +10,7 @@ const MyContribution = () => {
         <main className="flex-1 p-6">
           <h2 className="text-xl font-semibold mb-4">My Contributions</h2>
           <p className="text-gray-600">This page will show all the papers and comments you've submitted.</p>
-          {/* Add contribution list or upload form here */}
+
         </main>
       </div>
     </div>

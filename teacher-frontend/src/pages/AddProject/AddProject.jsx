@@ -32,7 +32,6 @@ const AddProject = () => {
         projectData.append(key, formData[key]);
       }
 
-      // ✅ Add teacherId from localStorage
       const teacherId = localStorage.getItem('teacherId');
       if (!teacherId) {
         alert("Teacher ID not found. Please log in again.");
@@ -47,9 +46,9 @@ const AddProject = () => {
         }
       });
 
-      alert('✅ Project submitted successfully for admin approval!');
+      alert('Project submitted successfully for admin approval!');
     } catch (error) {
-      alert('❌ Error submitting project.');
+      alert('Error submitting project.');
       console.error("Submit error:", error);
     }
   };

@@ -10,13 +10,11 @@ const Navbar = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // On initial load, check token
   useEffect(() => {
     const token = localStorage.getItem("token");
     setIsLoggedIn(!!token);
   }, []);
 
-  // When login popup closes, update login state
   const handleLoginClose = () => {
     const token = localStorage.getItem("token");
     setIsLoggedIn(!!token);

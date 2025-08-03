@@ -21,7 +21,7 @@ const AllResearchPapers = () => {
 
   return (
     <div className="all-research">
-      {/* Sidebar */}
+
       <div className="sidebar">
         <h3>Categories</h3>
         {categories.map((category, idx) => (
@@ -37,14 +37,12 @@ const AllResearchPapers = () => {
         ))}
       </div>
 
-      {/* Paper Cards */}
       <div className="papers-container">
         {filteredPapers.map((paper, index) => (
           <div className="paper-card" key={index}>
             <h3 className="paper-title">{paper.title}</h3>
             <p className="paper-desc">{paper.description}</p>
 
-            {/* Tags */}
             {paper.tags && Array.isArray(paper.tags) && (
               <div className="paper-tags">
                 {paper.tags.map((tag, i) => (
@@ -55,7 +53,6 @@ const AllResearchPapers = () => {
               </div>
             )}
 
-            {/* Buttons */}
             <div className="paper-buttons">
               <a
                 href={`http://localhost:5000/api/projects/${paper._id}/document`}

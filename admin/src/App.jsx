@@ -29,7 +29,6 @@ const App = () => {
             <Route path="/manageProject" element={<ManageProject />} />
             <Route path="/reviewContributions" element={<ReviewContributions />} />
             <Route path="/monitorPayments" element={<MonitorPayments />} />
-            
           </Routes>
         </div>
       </div>

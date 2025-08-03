@@ -13,7 +13,6 @@ const Navbar = () => {
         setIsLoggedIn(!!token);
       }, []);
     
-      // When login popup closes, update login state
       const handleLoginClose = () => {
         const token = localStorage.getItem("token");
         setIsLoggedIn(!!token);

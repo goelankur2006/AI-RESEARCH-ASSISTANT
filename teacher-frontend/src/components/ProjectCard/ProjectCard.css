@@ -1,7 +1,7 @@
 
-.approved-projects-container {
+.approved-projects-container, .rejected-projects-container, .pending-projects-container {
   padding: 20px;
-  margin-left: 220px; /* This must match your sidebar width */
+  margin-left: 220px;
 }
 
 .project-card {

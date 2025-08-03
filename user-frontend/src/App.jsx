@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import MainLayout from './Layout/MainLayout';
 import PapersLayout from './Layout/PapersLayout';
 
@@ -10,7 +10,7 @@ import MyContribution from './pages/Mycontributions/MyContributions';
 
 const App = () => {
   return (
-    <BrowserRouter>
+    <>
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
@@ -21,7 +21,7 @@ const App = () => {
           <Route path="/allresearchpapers" element={<AllResearchPapers />} />
         </Route>
       </Routes>
-    </BrowserRouter>
+    </>
   );
 };
 

@@ -7,8 +7,8 @@ import {
 
 const router = express.Router();
 
-router.get('/', getAllPapers);       // GET /api/papers
-router.get('/:id', getPaperById);    // GET /api/papers/:id
-router.post('/', createPaper);       // POST /api/papers
+router.get('/', getAllPapers);   
+router.get('/:id', getPaperById);  
+router.post('/', createPaper);    
 
 export default router;
