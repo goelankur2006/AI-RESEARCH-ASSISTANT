@@ -1,18 +1,13 @@
 import Project from '../models/Project.js';
-import TeacherId from '../models/Teacher.js'; 
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 
 /**
- * POST /api/teachers/add-project
+ * POST /api/teacher/add-project
  */
 export const addProject = async (req, res) => {
   try {
-    console.log("📥 Incoming Request Data:");
-    console.log("Form fields:", req.body);
-    console.log("Uploaded file:", req.file);
-
     const {
       title,
       domain,
@@ -28,24 +23,27 @@ export const addProject = async (req, res) => {
 
     const document = req.file ? req.file.buffer : null;
 
+    if (!teacherId) {
+      return res.status(400).json({ message: 'Missing teacherId' });
+    }
+
     const newProject = new Project({
       title,
       domain,
       description,
       startDate,
-      endDate,    
+      endDate,
       objectives,
       technologies,
       budget,
       guide,
       document,
-      submittedBy: req.body.teacherId,
-      status: 'pending'
-    }); 
+      status: 'pending',
+      submittedBy: teacherId
+    });
 
     await newProject.save();
     res.status(201).json({ message: 'Project added successfully' });
-
   } catch (error) {
     console.error("Error in addProject controller:", error);
     res.status(500).json({ message: 'Server Error', error: error.message });
@@ -53,27 +51,22 @@ export const addProject = async (req, res) => {
 };
 
 /**
- * GET /api/teachers/my-projects
+ * GET /api/teacher/my-projects
  */
 export const getMyProjects = async (req, res) => {
+  const { teacherId } = req.params;
   try {
-    const projects = await Project.find({
-      createdBy: req.user.id, // This requires authentication middleware
-      status: 'approved'
-    });
+    const projects = await Project.find({ submittedBy: teacherId });
     res.json(projects);
-  } catch (error) {
-    res.status(500).json({ message: 'Error fetching projects' });
+  } catch (err) {
+    res.status(500).json({ message: 'Error fetching teacher projects', error: err.message });
   }
 };
-
 
 export const loginTeacher = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    console.log("🔐 Login attempt:", email);
-
     const teacher = await User.findOne({ email, role: 'teacher' });
     if (!teacher) return res.status(404).json({ error: 'Teacher not found' });
 
@@ -83,8 +76,8 @@ export const loginTeacher = async (req, res) => {
     const token = jwt.sign({ id: teacher._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
 
     res.json({ token, name: teacher.name, teacherId: teacher._id });
+
   } catch (err) {
-    console.error("❌ Login error:", err);
     res.status(500).json({ error: 'Login failed', detail: err.message });
   }
 };

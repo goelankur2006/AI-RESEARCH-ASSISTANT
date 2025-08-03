@@ -1,35 +1,40 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './ApproveProjects.css';
 
 const ApproveProjects = () => {
-  const [projects, setProjects] = useState([]);
+  const [grouped, setGrouped] = useState({
+    pending: [],
+    approved: [],
+    rejected: []
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch pending projects from API
-const fetchProjects = async () => {
-  try {
-    const res = await axios.get('/api/projects'); // Vite proxy handles localhost
-    const grouped = {
-      running: [],
-      completed: [],
-      rejected: []
-    };
+  // Fetch projects from API
+  const fetchProjects = async () => {
+    try {
+      const res = await axios.get('http://localhost:5000/api/projects'); // Vite proxy or full URL
+      const groupedData = {
+        pending: [],
+        approved: [],
+        rejected: []
+      };
 
-    res.data.forEach(project => {
-      if (project.status === 'approved') grouped.completed.push(project);
-      else if (project.status === 'rejected') grouped.rejected.push(project);
-      else grouped.running.push(project);
-    });
+      res.data.forEach(project => {
+        if (project.status === 'pending') groupedData.pending.push(project);
+        else if (project.status === 'approved') groupedData.approved.push(project);
+        else if (project.status === 'rejected') groupedData.rejected.push(project);
+      });
 
-    setProjects(grouped);
-    setLoading(false);
-  } catch (err) {
-    console.error('Error fetching projects:', err);
-    setLoading(false);
-  }
-};
-
+      setGrouped(groupedData);
+      setLoading(false);
+    } catch (err) {
+      console.error('Error fetching projects:', err);
+      setError('Failed to load projects.');
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     fetchProjects();
@@ -43,9 +48,8 @@ const fetchProjects = async () => {
       });
 
       if (!res.ok) throw new Error("Approval failed");
-
-      setProjects(prev => prev.filter(project => project._id !== projectId));
       alert('✅ Project approved!');
+      fetchProjects(); // Refresh the list
     } catch (err) {
       console.error("❌ Approve error:", err);
       alert(`Error: ${err.message}`);
@@ -67,9 +71,8 @@ const fetchProjects = async () => {
       });
 
       if (!res.ok) throw new Error("Rejection failed");
-
-      setProjects(prev => prev.filter(project => project._id !== projectId));
       alert('❌ Project rejected!');
+      fetchProjects(); // Refresh the list
     } catch (err) {
       console.error("❌ Reject error:", err);
       alert(`Error: ${err.message}`);
@@ -85,15 +88,14 @@ const fetchProjects = async () => {
     </div>
   );
 
-  // Render list
   return (
     <div className="approve-projects-content">
       <h2>Projects Awaiting Approval</h2>
-      {projects.length === 0 ? (
+      {grouped.pending.length === 0 ? (
         <p>No projects pending approval.</p>
       ) : (
         <div className="project-list-container">
-          {projects.map(project => (
+          {grouped.pending.map(project => (
             <div className="project-card" key={project._id}>
               <div className="project-details">
                 <h3>{project.title}</h3>
@@ -106,8 +108,9 @@ const fetchProjects = async () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <button className="action-button download-button">Download Document</button>
+                  <button className="action-button download-button">View Document</button>
                 </a>
+
                 <button
                   className="action-button approve-button"
                   onClick={() => handleApprove(project._id)}

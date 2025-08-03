@@ -3,7 +3,7 @@ import Project from '../models/Project.js';
 // GET: Fetch all projects
 export const getAllProjects = async (req, res) => {
   try {
-    const projects = await Project.find(); // must connect to MongoDB
+    const projects = await Project.find().populate('submittedBy', 'name employeeId');
     res.status(200).json(projects);
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch projects' });
@@ -54,29 +54,26 @@ export const getPendingProjects = async (req, res) => {
 };
 
 
-export const downloadProjectDocument = async (req, res) => {
+export const viewProjectDocument = async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
-
     if (!project || !project.document) {
-      return res.status(404).json({ error: 'Document not found' });
+      return res.status(404).send("Document not found");
     }
 
     res.set({
-      'Content-Type': 'application/pdf', // ✅ Explicitly PDF
+      'Content-Type': 'application/pdf',  // change if file type varies
       'Content-Disposition': `inline; filename="${project.title || 'document'}.pdf"`,
     });
 
-    const buffer = Buffer.isBuffer(project.document)
-      ? project.document
-      : Buffer.from(project.document);
-
-    res.send(buffer);
+    res.send(project.document);
   } catch (err) {
-    console.error('Error downloading file:', err);
-    res.status(500).json({ error: 'Failed to download file' });
+    console.error("❌ Document display error:", err);
+    res.status(500).send("Error displaying document");
   }
 };
+
+
 
 
 export const getProjectsByTeacherId = async (req, res) => {

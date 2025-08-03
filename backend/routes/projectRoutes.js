@@ -4,17 +4,15 @@ import {
   approveProject,
   rejectProject,
   getPendingProjects,
-  downloadProjectDocument
+  viewProjectDocument
 } from '../controllers/projectController.js';
 
 const router = express.Router();
 
-
-router.get('/projects', getAllProjects);
-router.get('/projects/pending', getPendingProjects);
-router.put('/projects/:id/approve', approveProject);
-router.put('/projects/:id/reject', rejectProject);
-router.get('/projects/:id/download', downloadProjectDocument); 
-
+router.get('/', getAllProjects); // ✅ This is what your frontend calls
+router.get('/pending', getPendingProjects);
+router.put('/:id/approve', approveProject);
+router.put('/:id/reject', rejectProject);
+router.get('/:id/document', viewProjectDocument);
 
 export default router;
