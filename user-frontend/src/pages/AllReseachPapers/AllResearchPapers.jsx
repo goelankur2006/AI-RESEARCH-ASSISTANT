@@ -6,13 +6,13 @@ const AllResearchPapers = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/papers") // 🔁 Adjust if hosted elsewhere
+    fetch("http://localhost:5000/api/projects")
       .then((res) => res.json())
       .then((data) => setPapers(data))
       .catch((error) => console.error("Error fetching papers:", error));
   }, []);
 
-  const categories = ["All", ...new Set(papers.map((p) => p.category))];
+  const categories = ["All", ...new Set(papers.map((p) => p.category || "Uncategorized"))];
 
   const filteredPapers =
     selectedCategory === "All"
@@ -37,7 +37,7 @@ const AllResearchPapers = () => {
         ))}
       </div>
 
-      {/* Research Papers Grid */}
+      {/* Paper Cards */}
       <div className="papers-container">
         {filteredPapers.map((paper, index) => (
           <div className="paper-card" key={index}>
@@ -45,7 +45,7 @@ const AllResearchPapers = () => {
             <p className="paper-desc">{paper.description}</p>
 
             {/* Tags */}
-            {paper.tags && (
+            {paper.tags && Array.isArray(paper.tags) && (
               <div className="paper-tags">
                 {paper.tags.map((tag, i) => (
                   <span key={i} className="tag">
@@ -57,7 +57,14 @@ const AllResearchPapers = () => {
 
             {/* Buttons */}
             <div className="paper-buttons">
-              <button className="btn view-btn">View</button>
+              <a
+                href={`http://localhost:5000/api/projects/${paper._id}/document`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn view-btn"
+              >
+                View
+              </a>
               <button className="btn contribute-btn">Contribute</button>
             </div>
           </div>
