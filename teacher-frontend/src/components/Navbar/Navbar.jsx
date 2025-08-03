@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import LoginPopup from '../LoginPopup/LoginPopup'; // adjust path as needed
+import './Navbar.css';
 
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
