@@ -15,7 +15,7 @@ const ApproveProjects = () => {
   // ✅ Fetch projects from API
   const fetchProjects = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/projects');
+      const res = await axios.get('http://localhost:5000/api/projects/pending');
       const groupedData = {
         pending: [],
         approved: [],

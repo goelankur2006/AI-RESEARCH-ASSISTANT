@@ -3,7 +3,7 @@ import Project from '../models/Project.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
-
+import mongoose from 'mongoose';
 /**
  * POST /api/teacher/add-project
  */
@@ -22,12 +22,12 @@ export const addProject = async (req, res) => {
       teacherId
     } = req.body;
 
-    // Check teacherId present
+    console.log('📥 Submitted by teacherId:', teacherId);
+
     if (!teacherId) {
-      return res.status(400).json({ message: 'Missing teacherId' });
+      return res.status(400).json({ error: 'Missing teacherId in request' });
     }
 
-    // Prepare project object
     const newProject = new Project({
       title,
       domain,
@@ -38,24 +38,27 @@ export const addProject = async (req, res) => {
       technologies,
       budget,
       guide,
-      submittedBy: teacherId,
-      status: 'pending',
-      document: req.file
-        ? {
-            data: req.file.buffer,
-            contentType: req.file.mimetype,
-            originalName: req.file.originalname
-          }
-        : undefined
+      submittedBy: req.body.teacherId,
+      status: 'pending'
     });
 
+    // Handle file upload
+    if (req.file) {
+      newProject.document = {
+        data: req.file.buffer,
+        contentType: req.file.mimetype,
+        originalName: req.file.originalname
+      };
+    }
+
     await newProject.save();
-    res.status(201).json({ message: 'Project added successfully' });
+    res.status(201).json(newProject);
   } catch (error) {
-    console.error("Error in addProject controller:", error);
-    res.status(500).json({ message: 'Server Error', error: error.message });
+    console.error('❌ Error in addProject controller:', error);
+    res.status(500).json({ error: 'Server error in adding project', detail: error.message });
   }
 };
+
 
 /**
  * GET /api/teacher/my-projects/:teacherId

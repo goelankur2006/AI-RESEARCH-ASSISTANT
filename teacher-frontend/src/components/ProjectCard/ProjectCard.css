@@ -1,0 +1,33 @@
+
+.approved-projects-container {
+  padding: 20px;
+  margin-left: 220px; /* This must match your sidebar width */
+}
+
+.project-card {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 16px;
+  margin: 12px 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.project-card h3 {
+  margin-top: 0;
+  color: #333;
+}
+
+.project-card p {
+  margin: 6px 0;
+}
+
+.feedback {
+  color: #b30000;
+  font-weight: bold;
+}

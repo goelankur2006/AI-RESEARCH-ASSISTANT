@@ -9,7 +9,7 @@ const upload = multer(); // Used to handle document upload
 router.post('/add-project', upload.single('document'), addProject);
 
 // Get all projects submitted by a teacher
-router.get('/my-projects/:teacherId', getMyProjects);
+router.get('/:teacherId', getMyProjects);
 
 // Teacher login
 router.post('/login', loginTeacher);

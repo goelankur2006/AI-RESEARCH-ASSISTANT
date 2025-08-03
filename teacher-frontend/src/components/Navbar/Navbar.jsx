@@ -1,61 +1,43 @@
-import React, { useEffect, useState } from 'react';
-import './Navbar.css';
-import LoginPopup from '../LoginPopup/LoginPopup';
+import React, { useState, useEffect } from 'react';
+import LoginPopup from '../LoginPopup/LoginPopup'; // adjust path as needed
 
-const Navbar = ({ teacherName: propTeacherName }) => {
-  const [teacherName, setTeacherName] = useState('');
+const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showLoginPopup, setShowLoginPopup] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const storedName = localStorage.getItem('teacherName');
-
-    if (token && storedName) {
-      setIsLoggedIn(true);
-      setTeacherName(storedName || propTeacherName || 'Teacher');
-    } else {
-      setIsLoggedIn(false);
-      setShowLoginPopup(false); // ✅ don't show automatically
-    }
-  }, [propTeacherName]);
+    const teacherId = localStorage.getItem('teacherId');
+    setIsLoggedIn(!!teacherId);
+  }, []);
 
   const handleLogout = () => {
+    localStorage.removeItem('teacherId');
     localStorage.removeItem('token');
-    localStorage.removeItem('teacherName');
+    alert("Logged out successfully");
     setIsLoggedIn(false);
-    // ✅ Popup will appear only when user clicks Login again
+    window.location.reload();
   };
 
-  const handleLoginSuccess = () => {
-    const storedName = localStorage.getItem('teacherName');
-    setIsLoggedIn(true);
-    setTeacherName(storedName || 'Teacher');
+  const openLogin = () => {
+    setShowLoginPopup(true);
+  };
+
+  const closeLogin = () => {
     setShowLoginPopup(false);
+    setIsLoggedIn(!!localStorage.getItem('teacherId')); // update login state
   };
 
   return (
-    <>
-      <div className="navbar">
-        <div className="navbar-left">
-          <h2>AI Research Assistant</h2>
-        </div>
-        <div className="navbar-right">
-          {isLoggedIn ? (
-            <>
-              <span className="teacher-name">Welcome, {teacherName}</span>
-              <button className="logout-btn" onClick={handleLogout}>Logout</button>
-            </>
-          ) : (
-            <button className="login-btn" onClick={() => setShowLoginPopup(true)}>Login</button>
-          )}
-        </div>
-      </div>
-
-      {showLoginPopup && (
-        <LoginPopup onClose={handleLoginSuccess} />
+    <nav className="navbar">
+      <h2>Research Portal</h2>
+      {isLoggedIn ? (
+        <button onClick={handleLogout}>Logout</button>
+      ) : (
+        <button onClick={openLogin}>Login</button>
       )}
-    </>
+
+      {showLoginPopup && <LoginPopup onClose={closeLogin} />}
+    </nav>
   );
 };
 

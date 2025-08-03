@@ -47,7 +47,7 @@ const ManageProjects = () => {
         {list.map((proj) => (
           <div key={proj._id} className="project-card">
             <h3>{proj.title}</h3>
-            <p><strong>Submitted by:</strong> {proj.teacherName || 'Unknown'}</p>
+            <p><strong>Submitted by:</strong> {proj.submittedBy}</p>
             <p><strong>Status:</strong> {proj.status}</p>
             <p>{proj.description}</p>
           </div>

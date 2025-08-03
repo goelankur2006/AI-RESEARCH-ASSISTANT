@@ -11,25 +11,29 @@ const LoginPopup = ({ onClose }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/teacher/login', {
+      const res = await axios.post('http://localhost:5000/api/teacher/login', {
         email,
-        password,
+        password
       });
 
-      console.log('Login response:', response.data);
+      console.log("Login response:", res.data);
 
-      // Save teacherId in localStorage
-      localStorage.setItem('teacherId', response.data.teacher._id);
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('teacherName', response.data.teacher.name);
+      const { teacherId, token } = res.data;
 
-      // Navigate to teacher panel
-      Navigate('/teacher/dashboard');
-    } catch (error) {
-      console.error('Error logging in:', error);
-      alert('Login failed. Please check credentials.');
+      if (teacherId) {
+        localStorage.setItem('teacherId', res.data.teacherId);
+        localStorage.setItem('token', token);
+        alert("Login successful");
+        window.location.reload();
+      } else {
+        alert("teacherId missing in response");
+      }
+    } catch (err) {
+      console.error("Error logging in:", err);
+      alert("Login failed. Please check credentials.");
     }
   };
+
 
   return (
     <div className="login-popup">
@@ -41,10 +45,7 @@ const LoginPopup = ({ onClose }) => {
 
         <form
           className="login-popup-container"
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleLogin();
-          }}
+          onSubmit={handleLogin}
         >
           <div className="login-popup-inputs">
             <input
